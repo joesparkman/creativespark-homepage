@@ -18,8 +18,8 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1  # <-- Authenticate through the global/N. Virginia endpoint
+        aws-region: us-east-1
 
     - name: Sync Homepage to Root S3 Bucket
       run: |
-        aws s3 sync . s3://joesparkman.com --region us-east-2 --delete --exclude ".git/*" --exclude ".github/*"
+        aws s3 sync . s3://www.joesparkman.com --region us-east-2 --delete --exclude ".git/*" --exclude ".github/*"
