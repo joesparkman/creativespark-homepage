@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Website - README</title>
+    <meta name="description" content="README for the CreativeSpark portfolio site: static hosting on S3, CloudFront, and an OIDC-authenticated GitHub Actions deploy pipeline.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.14);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue-light: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent 40%), var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 18px 40px;
+        }
+        .shell { max-width: 860px; margin: 0 auto; }
+        .eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--blue-light); margin: 0 0 10px; font-weight: 700; }
+        h1 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: -0.02em; }
+        .lead { margin: 14px 0 28px; color: var(--muted); line-height: 1.7; max-width: 700px; }
+        .lead a { color: var(--blue-light); }
+        .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+        .actions a { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.82rem; background: rgba(59, 130, 246, 0.14); }
+        .actions a.secondary { background: transparent; color: var(--muted); }
+        .stack-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 32px; }
+        .stack-tag { font-size: 0.72rem; font-weight: 600; color: var(--cyan); background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.22); border-radius: 999px; padding: 5px 11px; }
+        .readme-body h2 { font-family: "Space Grotesk", sans-serif; font-size: 1.15rem; color: var(--text); margin: 40px 0 12px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .readme-body h2:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+        .readme-body ol { color: var(--muted); line-height: 1.8; padding-left: 22px; margin: 0 0 16px; }
+        .readme-body p { color: var(--muted); line-height: 1.7; margin: 0 0 12px; }
+        .readme-body code { font-family: "JetBrains Mono", monospace; font-size: 0.85em; background: rgba(99, 179, 255, 0.1); border: 1px solid rgba(99, 179, 255, 0.16); border-radius: 4px; padding: 1px 6px; color: var(--cyan); }
+        .readme-body pre { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; margin: 0 0 16px; }
+        .readme-body pre code { background: none; border: none; padding: 0; color: #cbd5e1; font-size: 0.82rem; line-height: 1.6; }
+        .footer-note { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <p class="eyebrow">README</p>
+        <h1>Portfolio Website</h1>
+        <p class="lead">
+            Source for <a href="https://www.joesparkman.com" target="_blank" rel="noopener noreferrer">www.joesparkman.com</a>
+            - a static portfolio site showcasing cloud applications and automation projects, plus the
+            interactive demo pages for several of them (served from <code>app.joesparkman.com</code>).
+        </p>
+
+        <div class="stack-row">
+            <span class="stack-tag">HTML / CSS / JavaScript</span>
+            <span class="stack-tag">Terraform</span>
+            <span class="stack-tag">Amazon S3</span>
+            <span class="stack-tag">CloudFront</span>
+            <span class="stack-tag">ACM</span>
+            <span class="stack-tag">GitHub Actions (OIDC)</span>
+            <span class="stack-tag">IAM</span>
+        </div>
+
+        <div class="readme-body">
+            <h2>How It Deploys</h2>
+            <p>Every push to <code>main</code> triggers <code>.github/workflows/deploy.yml</code>, which:</p>
+            <ol>
+                <li>Assumes an IAM role via GitHub Actions OIDC (no long-lived AWS keys).</li>
+                <li>Syncs the site to both the <code>www.joesparkman.com</code> and <code>app.joesparkman.com</code>
+                    S3 buckets.</li>
+                <li>Invalidates the CloudFront distribution cache.</li>
+            </ol>
+            <p>The underlying AWS infrastructure (S3 buckets, ACM certificate, the OIDC deploy role) is managed
+                with Terraform in <code>infra/terraform/</code>.</p>
+
+            <h2>Repo Layout</h2>
+            <pre><code>index.html              Homepage - hero, project cards, app demo videos
+portfolio-story.html    "Portfolio Website" project story page
+portfolio-architecture.html   "Portfolio Website" project architecture diagram
+readme/                 Per-project README pages linked from the homepage
+biometric/, call-triage/, quickbite/, pet-recipe-app/
+                         Per-project App / Story / Visual Diagram pages,
+                         served under app.joesparkman.com
+infra/terraform/        S3, CloudFront, ACM, and OIDC deploy role</code></pre>
+
+            <p>Each featured project on the homepage links out to its own dedicated GitHub repo for source code
+                - this repo only holds the site shell, the per-project README pages, and the static per-project
+                demo pages, not the projects' application code or infrastructure.</p>
+        </div>
+
+        <div class="actions">
+            <a href="https://www.joesparkman.com/">Open App</a>
+            <a href="https://www.joesparkman.com/portfolio-story.html">Story</a>
+            <a href="https://www.joesparkman.com/portfolio-architecture.html">Visual Diagram</a>
+            <a class="secondary" href="https://www.joesparkman.com/">Back to Portfolio</a>
+        </div>
+
+        <p class="footer-note">Source repository: joesparkman/creativespark-homepage</p>
+    </main>
+</body>
+</html>

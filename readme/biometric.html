@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biometric Scan App - README</title>
+    <meta name="description" content="README for the Biometric Scan App: a serverless biometric identity verification pipeline on AWS.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.14);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue-light: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent 40%), var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 18px 40px;
+        }
+
+        .shell {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--blue-light);
+            margin: 0 0 10px;
+            font-weight: 700;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            letter-spacing: -0.02em;
+        }
+
+        .lead {
+            margin: 14px 0 28px;
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .actions a {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.82rem;
+            background: rgba(59, 130, 246, 0.14);
+        }
+
+        .actions a.secondary {
+            background: transparent;
+            color: var(--muted);
+        }
+
+        .stack-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 32px;
+        }
+
+        .stack-tag {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--cyan);
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.22);
+            border-radius: 999px;
+            padding: 5px 11px;
+        }
+
+        .readme-body h2 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 1.15rem;
+            color: var(--text);
+            margin: 40px 0 12px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .readme-body h2:first-of-type {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .readme-body h3 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 0.95rem;
+            color: var(--blue-light);
+            margin: 22px 0 8px;
+        }
+
+        .readme-body p {
+            color: var(--muted);
+            line-height: 1.7;
+            margin: 0 0 12px;
+        }
+
+        .readme-body ul, .readme-body ol {
+            color: var(--muted);
+            line-height: 1.8;
+            padding-left: 22px;
+            margin: 0 0 16px;
+        }
+
+        .readme-body li strong { color: var(--text); }
+
+        .readme-body code {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.85em;
+            background: rgba(99, 179, 255, 0.1);
+            border: 1px solid rgba(99, 179, 255, 0.16);
+            border-radius: 4px;
+            padding: 1px 6px;
+            color: var(--cyan);
+        }
+
+        .readme-body pre {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            overflow-x: auto;
+            margin: 0 0 16px;
+        }
+
+        .readme-body pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            color: #cbd5e1;
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+
+        .card-grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            margin: 0 0 16px;
+        }
+
+        .mini-card {
+            background: linear-gradient(135deg, var(--surface), var(--surface-2));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+        }
+
+        .mini-card h4 {
+            margin: 0 0 6px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        .mini-card p {
+            margin: 0;
+            font-size: 0.82rem;
+        }
+
+        .footer-note {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <p class="eyebrow">README</p>
+        <h1>Biometric Scan App</h1>
+        <p class="lead">
+            A serverless biometric identity verification pipeline on AWS. The system accepts an ID image
+            and a selfie, compares faces with Amazon Rekognition, and stores verification state in DynamoDB.
+        </p>
+
+        <div class="stack-row">
+            <span class="stack-tag">Python 3.13</span>
+            <span class="stack-tag">AWS Lambda</span>
+            <span class="stack-tag">Amazon Rekognition</span>
+            <span class="stack-tag">DynamoDB</span>
+            <span class="stack-tag">S3</span>
+            <span class="stack-tag">API Gateway</span>
+            <span class="stack-tag">Secrets Manager</span>
+            <span class="stack-tag">AWS SAM</span>
+            <span class="stack-tag">AWS WAF v2</span>
+        </div>
+
+        <div class="readme-body">
+            <h2>Architecture Overview</h2>
+            <div class="card-grid">
+                <div class="mini-card">
+                    <h4>Upload Subservice (API Lambda)</h4>
+                    <p>Exposes <code>POST /upload</code>, accepts base64 image payloads, stores images in S3, and
+                        triggers the verification worker asynchronously after selfie upload.</p>
+                </div>
+                <div class="mini-card">
+                    <h4>Verification Worker (Background Lambda)</h4>
+                    <p>Calls Rekognition <code>CompareFaces</code> and writes verification status and similarity
+                        score to DynamoDB.</p>
+                </div>
+            </div>
+
+            <h2>AWS Resources (SAM)</h2>
+            <p>The SAM template provisions:</p>
+            <ul>
+                <li>One encrypted S3 bucket for uploaded images</li>
+                <li>One DynamoDB table (<code>creativespark-onboarding-users</code>)</li>
+                <li>One Secrets Manager secret for the API auth token</li>
+                <li>API Gateway with route <code>POST /upload</code></li>
+                <li>API Gateway stage throttling (burst/rate limits)</li>
+                <li>AWS WAF v2 Web ACL - managed common protections, known bad input protections, and IP rate
+                    limiting
+                    <ul>
+                        <li>Note: the managed <code>SizeRestrictions_BODY</code> sub-rule is set to Count because
+                            <code>/upload</code> accepts large base64 image payloads.</li>
+                    </ul>
+                </li>
+                <li>Two Lambda functions: <code>cs-upload-subservice</code> and <code>cs-verify-worker</code></li>
+            </ul>
+
+            <h2>Authentication Model</h2>
+            <ul>
+                <li>Clients first request <code>INIT_SESSION</code> with a <code>user_id</code>.</li>
+                <li>The backend issues a short-lived signed <code>session_token</code> (5 minute TTL).</li>
+                <li><code>UPLOAD_ID</code>, <code>UPLOAD</code>, and <code>STATUS</code> require
+                    <code>session_token</code> in request bodies.</li>
+                <li>Tokens are validated server-side with an HMAC signature derived from the Secrets Manager
+                    secret.</li>
+                <li>Temporary rollout compatibility: a static token fallback can be enabled only with
+                    <code>ALLOW_LEGACY_STATIC_TOKEN=true</code>. The secure default is disabled.</li>
+            </ul>
+
+            <h2>API Contract</h2>
+            <p><strong>Endpoint:</strong> <code>POST /upload</code></p>
+            <h3>Supported actions</h3>
+            <ul>
+                <li><strong>INIT_SESSION</strong> - required: <code>user_id</code>. Returns
+                    <code>session_token</code>, <code>expires_in</code>.</li>
+                <li><strong>UPLOAD_ID</strong> - required: <code>session_token</code>, <code>user_id</code>,
+                    <code>id_image_base64</code>.</li>
+                <li><strong>UPLOAD</strong> - required: <code>session_token</code>, <code>user_id</code>,
+                    <code>selfie_image_base64</code>. Triggers the async verify worker.</li>
+                <li><strong>STATUS</strong> - required: <code>session_token</code>, <code>user_id</code>. Returns
+                    status and similarity.</li>
+            </ul>
+            <p><strong>Notes:</strong> <code>user_id</code> must match
+                <code>^[a-zA-Z0-9_\-]{3,64}$</code>. CORS is currently restricted to
+                <code>https://app.joesparkman.com</code>. If Rekognition processing fails, the worker writes a
+                terminal <code>ERROR</code> status to DynamoDB to avoid indefinite <code>PENDING</code> states.</p>
+
+            <h2>Frontend Configuration</h2>
+            <ul>
+                <li><code>frontend/config.js</code>: set <code>APP_CONFIG.API_URL</code> to the deployed SAM API
+                    base URL (e.g. <code>https://&lt;api-id&gt;.execute-api.&lt;region&gt;.amazonaws.com/Prod</code>).</li>
+                <li><code>frontend/index.html</code>: the app automatically requests a short-lived session token
+                    from the backend before upload.</li>
+            </ul>
+            <p><strong>Important security note:</strong> short-lived tokens reduce exposure, but browser-visible
+                tokens are still bearer credentials. Production would add user authentication and issue scoped
+                server-side sessions.</p>
+
+            <h2>Deployment</h2>
+            <p>Prerequisites: AWS CLI configured (<code>aws configure</code>) and the AWS SAM CLI installed.</p>
+            <pre><code>sam build
+sam deploy --guided</code></pre>
+            <p>After deployment: copy the output <code>ApiEndpoint</code> value, update
+                <code>frontend/config.js</code>'s <code>API_URL</code>, and ensure the Secrets Manager secret
+                contains the signing secret used by the session token system.</p>
+
+            <h3>Security tuning knobs (template parameters)</h3>
+            <ul>
+                <li><code>ApiThrottleBurstLimit</code>: default 40</li>
+                <li><code>ApiThrottleRateLimit</code>: default 20</li>
+                <li><code>WafRateLimitPerIp</code>: default 1200 requests per 5 minutes</li>
+            </ul>
+
+            <h2>Local / Integration Test Script</h2>
+            <p><code>upload_subservice/test_api.py</code> reads the local environment variable
+                <code>API_URL</code>.</p>
+
+            <h2>Security &amp; Repository Hygiene</h2>
+            <ul>
+                <li><code>.env</code> is ignored in <code>.gitignore</code>.</li>
+                <li>No secrets or real tokens are committed.</li>
+            </ul>
+        </div>
+
+        <div class="actions">
+            <a href="https://app.joesparkman.com/biometric/">Open App</a>
+            <a href="https://app.joesparkman.com/biometric/story.html">Story</a>
+            <a href="https://app.joesparkman.com/biometric/architecture-diagram.html">Visual Diagram</a>
+            <a class="secondary" href="https://www.joesparkman.com/">Back to Portfolio</a>
+        </div>
+
+        <p class="footer-note">Source repository: joesparkman/biometric</p>
+    </main>
+</body>
+</html>

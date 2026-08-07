@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA Neon App - README</title>
+    <meta name="description" content="README for FIFA Neon Soccer: a browser-based neon soccer game with a serverless AWS leaderboard backend.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.14);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue-light: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent 40%), var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 18px 40px;
+        }
+        .shell { max-width: 860px; margin: 0 auto; }
+        .eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--blue-light); margin: 0 0 10px; font-weight: 700; }
+        h1 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: -0.02em; }
+        .lead { margin: 14px 0 28px; color: var(--muted); line-height: 1.7; max-width: 700px; }
+        .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+        .actions a { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.82rem; background: rgba(59, 130, 246, 0.14); }
+        .actions a.secondary { background: transparent; color: var(--muted); }
+        .stack-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 32px; }
+        .stack-tag { font-size: 0.72rem; font-weight: 600; color: var(--cyan); background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.22); border-radius: 999px; padding: 5px 11px; }
+        .readme-body h2 { font-family: "Space Grotesk", sans-serif; font-size: 1.15rem; color: var(--text); margin: 40px 0 12px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .readme-body h2:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+        .readme-body h3 { font-family: "Space Grotesk", sans-serif; font-size: 0.95rem; color: var(--blue-light); margin: 22px 0 8px; }
+        .readme-body p { color: var(--muted); line-height: 1.7; margin: 0 0 12px; }
+        .readme-body ul, .readme-body ol { color: var(--muted); line-height: 1.8; padding-left: 22px; margin: 0 0 16px; }
+        .readme-body li strong { color: var(--text); }
+        .readme-body code { font-family: "JetBrains Mono", monospace; font-size: 0.85em; background: rgba(99, 179, 255, 0.1); border: 1px solid rgba(99, 179, 255, 0.16); border-radius: 4px; padding: 1px 6px; color: var(--cyan); }
+        .readme-body pre { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; margin: 0 0 16px; }
+        .readme-body pre code { background: none; border: none; padding: 0; color: #cbd5e1; font-size: 0.82rem; line-height: 1.6; }
+        .card-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 0 0 16px; }
+        .mini-card { background: linear-gradient(135deg, var(--surface), var(--surface-2)); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+        .mini-card h4 { margin: 0 0 6px; font-family: "Space Grotesk", sans-serif; font-size: 0.85rem; color: var(--text); }
+        .mini-card p { margin: 0; font-size: 0.82rem; }
+        .footer-note { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <p class="eyebrow">README</p>
+        <h1>FIFA Neon App</h1>
+        <p class="lead">
+            A small browser-based neon soccer game with a serverless AWS leaderboard backend. Canvas-driven
+            gameplay on the frontend, a Lambda + DynamoDB leaderboard and telemetry service on the backend.
+        </p>
+
+        <div class="stack-row">
+            <span class="stack-tag">JavaScript</span>
+            <span class="stack-tag">Canvas API</span>
+            <span class="stack-tag">Node.js</span>
+            <span class="stack-tag">AWS Lambda</span>
+            <span class="stack-tag">DynamoDB</span>
+            <span class="stack-tag">API Gateway</span>
+            <span class="stack-tag">Cognito</span>
+            <span class="stack-tag">AWS SAM</span>
+            <span class="stack-tag">S3 / CloudFront</span>
+        </div>
+
+        <div class="readme-body">
+            <h2>Project Structure</h2>
+            <ul>
+                <li><code>index.html</code>: game UI and canvas layout</li>
+                <li><code>style.css</code>: neon visual styling, responsive scaling, and canvas layout</li>
+                <li><code>app.js</code>: game logic, input handling, rendering, and leaderboard API calls</li>
+                <li><code>audio/</code>: optional WAV sound assets for local play and CloudFront-hosted delivery</li>
+                <li><code>backend/</code>: AWS SAM backend for the leaderboard
+                    <ul>
+                        <li><code>backend/lambda/leaderboard.js</code>: Lambda function handler</li>
+                        <li><code>backend/template.yaml</code>: SAM template defining the API and DynamoDB table</li>
+                        <li><code>backend/package.json</code>: Node dependency manifest for the backend</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>How the App Works</h2>
+            <h3>Frontend</h3>
+            <ul>
+                <li>Uses a canvas element for the game field and player/ball rendering</li>
+                <li>Supports mouse and touch input for dragging the player</li>
+                <li>Includes game state, physics, collisions, scoring, and visual effects</li>
+                <li>Sends leaderboard data via <code>POST /leaderboard</code> and loads the top leaderboard via
+                    <code>GET /leaderboard</code></li>
+                <li>Persists a guest profile locally so submissions keep a stable display name</li>
+                <li>Supports Cognito Hosted UI sign-in with a local guest fallback</li>
+                <li>Sends match telemetry to <code>POST /telemetry</code> for replay-style analysis</li>
+                <li>Can load optional audio assets from an S3/CloudFront asset base when deployed with hosted
+                    sound packs</li>
+            </ul>
+            <h3>Backend</h3>
+            <ul>
+                <li>AWS Lambda function written in Node.js using <code>@aws-sdk/client-dynamodb</code></li>
+                <li>Stores match telemetry summaries for later replay/tuning inspection</li>
+                <li>Emits structured logs and CloudWatch-compatible metrics</li>
+                <li>Writes each score entry with partition key <code>LEADERBOARD</code> and a sort key of padded
+                    score + timestamp</li>
+                <li>Returns the latest top 10 leaderboard entries, with CORS and request validation</li>
+            </ul>
+
+            <h2>Cloud Deployment</h2>
+            <p>Prerequisites: AWS CLI configured, AWS SAM CLI installed, Node.js installed for backend
+                dependencies.</p>
+            <h3>Run locally</h3>
+            <pre><code>python -m http.server 5500</code></pre>
+            <p>Then open <code>http://localhost:5500</code> in the browser - best served rather than opened
+                directly as a file.</p>
+            <h3>Deploy backend</h3>
+            <pre><code>cd backend
+npm install
+sam build
+sam deploy --guided</code></pre>
+            <p>Note the generated <code>ApiUrl</code> output and set it as <code>API_BASE</code> in
+                <code>app.js</code>. Use the <code>AssetBaseUrl</code> output to host sound packs from
+                CloudFront, and the Cognito outputs to configure <code>window.APP_COGNITO</code> for Hosted UI
+                login.</p>
+
+            <h3>Environment variables</h3>
+            <ul>
+                <li><code>LEADERBOARD_TABLE</code>: DynamoDB table name</li>
+                <li><code>TELEMETRY_TABLE</code>: DynamoDB table for match telemetry and replay summaries</li>
+                <li><code>ALLOWED_ORIGINS</code>: comma-separated list of allowed CORS origins</li>
+                <li><code>window.APP_ASSET_BASE</code>: CloudFront <code>AssetBaseUrl</code> for hosted sounds</li>
+                <li><code>window.APP_COGNITO</code>: <code>domain</code>, <code>clientId</code>,
+                    <code>redirectUri</code>, <code>logoutRedirectUri</code> for Hosted UI</li>
+            </ul>
+
+            <h2>Notes &amp; Best Practices</h2>
+            <ul>
+                <li>Do not commit <code>node_modules/</code> or generated SAM build artifacts</li>
+                <li>Keep AWS credentials out of the repo</li>
+                <li>Limit <code>ALLOWED_ORIGINS</code> to the actual frontend origins in use</li>
+                <li>Validate all incoming backend fields to prevent malformed or spoofed data</li>
+            </ul>
+
+            <h2>Optional Improvements</h2>
+            <ul>
+                <li>Add a real leaderboard display in the frontend</li>
+                <li>Use stricter IAM policies instead of <code>DynamoDBCrudPolicy</code></li>
+                <li>Replace hard-coded <code>API_BASE</code> with build-time or deployment-time configuration</li>
+                <li>Add tests for game logic and backend validation</li>
+                <li>Upload real audio packs to the CloudFront asset bucket for production delivery</li>
+                <li>Wire <code>window.APP_COGNITO</code> from SAM outputs so the Hosted UI login button is active</li>
+            </ul>
+        </div>
+
+        <div class="actions">
+            <a href="https://app.joesparkman.com/fifa/">Open App</a>
+            <a href="https://app.joesparkman.com/fifa/?view=story">Story</a>
+            <a href="https://app.joesparkman.com/fifa/architecture-diagram.html">Visual Diagram</a>
+            <a class="secondary" href="https://www.joesparkman.com/">Back to Portfolio</a>
+        </div>
+
+        <p class="footer-note">Source repository: joesparkman/fifa-neon-soccer</p>
+    </main>
+</body>
+</html>

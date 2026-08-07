@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Triage Pipeline - README</title>
+    <meta name="description" content="README for the Call Triage Pipeline: an AI-triaged voicemail transcription and summary workflow for property management.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.14);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue-light: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent 40%), var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 18px 40px;
+        }
+        .shell { max-width: 860px; margin: 0 auto; }
+        .eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--blue-light); margin: 0 0 10px; font-weight: 700; }
+        h1 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: -0.02em; }
+        .lead { margin: 14px 0 28px; color: var(--muted); line-height: 1.7; max-width: 700px; }
+        .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+        .actions a { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.82rem; background: rgba(59, 130, 246, 0.14); }
+        .actions a.secondary { background: transparent; color: var(--muted); }
+        .stack-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 32px; }
+        .stack-tag { font-size: 0.72rem; font-weight: 600; color: var(--cyan); background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.22); border-radius: 999px; padding: 5px 11px; }
+        .readme-body h2 { font-family: "Space Grotesk", sans-serif; font-size: 1.15rem; color: var(--text); margin: 40px 0 12px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .readme-body h2:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+        .readme-body h3 { font-family: "Space Grotesk", sans-serif; font-size: 0.95rem; color: var(--blue-light); margin: 22px 0 8px; }
+        .readme-body p { color: var(--muted); line-height: 1.7; margin: 0 0 12px; }
+        .readme-body ul, .readme-body ol { color: var(--muted); line-height: 1.8; padding-left: 22px; margin: 0 0 16px; }
+        .readme-body li strong { color: var(--text); }
+        .readme-body blockquote { margin: 0 0 16px; padding: 14px 18px; border-left: 3px solid var(--blue-light); background: rgba(59, 130, 246, 0.06); border-radius: 0 10px 10px 0; color: var(--muted); font-style: italic; line-height: 1.7; }
+        .readme-body code { font-family: "JetBrains Mono", monospace; font-size: 0.85em; background: rgba(99, 179, 255, 0.1); border: 1px solid rgba(99, 179, 255, 0.16); border-radius: 4px; padding: 1px 6px; color: var(--cyan); }
+        .readme-body pre { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; margin: 0 0 16px; }
+        .readme-body pre code { background: none; border: none; padding: 0; color: #cbd5e1; font-size: 0.82rem; line-height: 1.6; }
+        .footer-note { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <p class="eyebrow">README</p>
+        <h1>Call Triage Pipeline</h1>
+        <p class="lead">
+            Call Recording → Transcript → AI Summary → Email Workflow. A serverless AWS automation that turns
+            property-management call recordings into tenant-note-ready summaries and gets them into the right
+            inboxes - no manual download/upload/copy-paste required.
+        </p>
+
+        <div class="stack-row">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">AWS Lambda</span>
+            <span class="stack-tag">EventBridge</span>
+            <span class="stack-tag">Amazon Transcribe</span>
+            <span class="stack-tag">Claude (Anthropic)</span>
+            <span class="stack-tag">S3</span>
+            <span class="stack-tag">DynamoDB</span>
+            <span class="stack-tag">Amazon SES</span>
+            <span class="stack-tag">Terraform</span>
+        </div>
+
+        <div class="readme-body">
+            <p>Adapted from a real job posting brief into a working portfolio build, to demonstrate translating
+                a business automation problem into a production-shaped AWS architecture.</p>
+
+            <h2>User Story</h2>
+            <blockquote>
+                As a property management office, we're manually downloading call recordings, uploading them to a
+                transcription tool, pasting the transcript into an AI chatbot to summarize, and pasting that
+                summary into tenant notes - every single call. We want that whole chain automated, with urgent
+                issues (maintenance emergencies, legal threats, angry tenants) flagged immediately, and a weekly
+                rollup so management can see what came in without reading every note.
+            </blockquote>
+
+            <h2>What It Does</h2>
+            <ol>
+                <li>A call recording lands in S3 (from GoTo Connect, as it already does today).</li>
+                <li>Amazon Transcribe converts it to text.</li>
+                <li>Claude (Anthropic) reads the transcript and produces a structured summary: category, urgency
+                    flags, tenant-note-ready paragraph + bullets, and action items.</li>
+                <li>The transcript and summary are archived in S3; the call is logged in DynamoDB.</li>
+                <li>A per-call email goes out immediately, urgent calls marked <code>[URGENT]</code> in the
+                    subject line.</li>
+                <li>Every Monday, a weekly digest email summarizes the week for management.</li>
+                <li>Any call's summary can be resent or regenerated on demand.</li>
+            </ol>
+
+            <h2>Architecture</h2>
+            <p>Transcription and summarization run as separate Lambdas; DynamoDB (not S3 listing) drives the
+                weekly digest; and the existing recordings bucket stays under GoTo Connect's / the client's own
+                management rather than being absorbed into this stack.</p>
+            <pre><code>├── template.yaml              SAM template - all AWS resources
+├── src/
+│   ├── start_transcription/   Lambda 1: S3 trigger → starts Transcribe job
+│   ├── process_transcript/    Lambda 2: Transcribe done → Claude summary → email
+│   ├── weekly_summary/        Lambda 3: scheduled weekly digest
+│   └── resend_summary/        Lambda 4: on-demand resend/regenerate
+├── layer/python/               Shared code (Claude client, parsing, email templates)
+├── scripts/                   Bucket-notification wiring + CSV export helpers
+├── tests/                     Regression tests for parsing + email rendering
+└── docs/
+    ├── ARCHITECTURE.md
+    ├── SETUP.md                Deployment walkthrough
+    └── HANDOFF.md              Plain-language guide for the client's team</code></pre>
+
+            <h2>Deploy It</h2>
+            <pre><code>sam build && sam deploy --guided</code></pre>
+            <p>Plus a couple of one-time steps: SES verification, a Parameter Store secret, and wiring the
+                existing bucket's event notification.</p>
+
+            <h2>Run the Tests</h2>
+            <pre><code>python3 -m unittest discover -s tests -v</code></pre>
+            <p>Pure-logic tests for filename/phone parsing and email rendering - no AWS credentials needed.
+                These specifically guard against the brief's stated concern: a naming-convention change should
+                degrade gracefully, never break the pipeline.</p>
+
+            <h2>Security Notes</h2>
+            <ul>
+                <li>The Anthropic API key lives in SSM Parameter Store as a <code>SecureString</code>, never in
+                    code, CloudFormation parameters, or logs.</li>
+                <li>All IAM roles are scoped per-function to only the bucket/table/parameter they need (SAM
+                    <code>Policies:</code> blocks, not <code>*</code>-on-everything).</li>
+                <li>Email links use short-lived presigned S3 URLs rather than making the archive bucket public.</li>
+            </ul>
+        </div>
+
+        <div class="actions">
+            <a href="https://app.joesparkman.com/call-triage/">Open App</a>
+            <a href="https://app.joesparkman.com/call-triage/story.html">Story</a>
+            <a href="https://app.joesparkman.com/call-triage/architecture-diagram.html">Visual Diagram</a>
+            <a class="secondary" href="https://www.joesparkman.com/">Back to Portfolio</a>
+        </div>
+
+        <p class="footer-note">Source repository: joesparkman/call-triage-pipeline</p>
+    </main>
+</body>
+</html>

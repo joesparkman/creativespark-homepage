@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Recipe App - README</title>
+    <meta name="description" content="README for the Pet Recipe App: a Gemini AI-powered pet recipe generator on AWS.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.14);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue-light: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent 40%), var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 18px 40px;
+        }
+        .shell { max-width: 860px; margin: 0 auto; }
+        .eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--blue-light); margin: 0 0 10px; font-weight: 700; }
+        h1 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: -0.02em; }
+        .lead { margin: 14px 0 28px; color: var(--muted); line-height: 1.7; max-width: 700px; }
+        .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+        .actions a { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.82rem; background: rgba(59, 130, 246, 0.14); }
+        .actions a.secondary { background: transparent; color: var(--muted); }
+        .stack-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 32px; }
+        .stack-tag { font-size: 0.72rem; font-weight: 600; color: var(--cyan); background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.22); border-radius: 999px; padding: 5px 11px; }
+        .readme-body h2 { font-family: "Space Grotesk", sans-serif; font-size: 1.15rem; color: var(--text); margin: 40px 0 12px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .readme-body h2:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+        .readme-body h3 { font-family: "Space Grotesk", sans-serif; font-size: 0.95rem; color: var(--blue-light); margin: 22px 0 8px; }
+        .readme-body p { color: var(--muted); line-height: 1.7; margin: 0 0 12px; }
+        .readme-body ul, .readme-body ol { color: var(--muted); line-height: 1.8; padding-left: 22px; margin: 0 0 16px; }
+        .readme-body li strong { color: var(--text); }
+        .readme-body code { font-family: "JetBrains Mono", monospace; font-size: 0.85em; background: rgba(99, 179, 255, 0.1); border: 1px solid rgba(99, 179, 255, 0.16); border-radius: 4px; padding: 1px 6px; color: var(--cyan); }
+        .card-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 0 0 16px; }
+        .mini-card { background: linear-gradient(135deg, var(--surface), var(--surface-2)); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+        .mini-card h4 { margin: 0 0 6px; font-family: "Space Grotesk", sans-serif; font-size: 0.85rem; color: var(--text); }
+        .mini-card p { margin: 0; font-size: 0.82rem; }
+        .note { margin: 0 0 16px; padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(34, 211, 238, 0.22); background: rgba(34, 211, 238, 0.06); color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+        .footer-note { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <p class="eyebrow">README</p>
+        <h1>Pet Recipe App</h1>
+        <p class="lead">
+            A Gemini AI-powered recipe generator for pet owners, built on a production-shaped serverless AWS
+            stack: static hosting, Cognito authentication, API Gateway + Lambda, and DynamoDB persistence for
+            saved recipes and pet profiles.
+        </p>
+
+        <div class="stack-row">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">Gemini API</span>
+            <span class="stack-tag">AWS Lambda</span>
+            <span class="stack-tag">DynamoDB</span>
+            <span class="stack-tag">API Gateway</span>
+            <span class="stack-tag">Cognito</span>
+            <span class="stack-tag">S3 / CloudFront</span>
+            <span class="stack-tag">HTML / CSS / JavaScript</span>
+        </div>
+
+        <div class="readme-body">
+            <h2>What It Does</h2>
+            <p>Pet owners describe what they have on hand and what their pet needs, and the app generates a
+                recipe using Google's Gemini model. Signed-in users can save generated recipes and manage pet
+                profiles that carry over between sessions.</p>
+
+            <h2>Architecture</h2>
+            <div class="card-grid">
+                <div class="mini-card">
+                    <h4>Hosting</h4>
+                    <p>The frontend is deployed to S3 and served through CloudFront at
+                        <code>app.joesparkman.com/pet-recipe-app</code> for global delivery and cache control.</p>
+                </div>
+                <div class="mini-card">
+                    <h4>Auth</h4>
+                    <p>Amazon Cognito handles Hosted UI sign-in with PKCE. The browser stores tokens in session
+                        state and sends Bearer JWTs on protected routes.</p>
+                </div>
+                <div class="mini-card">
+                    <h4>API &amp; Compute</h4>
+                    <p>API Gateway routes requests to Lambda: <code>POST /recipes</code> for generation, plus
+                        protected <code>GET</code>/<code>POST</code> routes for saved recipes and pet profiles.</p>
+                </div>
+                <div class="mini-card">
+                    <h4>Data</h4>
+                    <p>DynamoDB persists user-scoped data across two tables, <code>SavedRecipes</code> and
+                        <code>PetProfiles</code>, keyed by identity claims from Cognito tokens.</p>
+                </div>
+                <div class="mini-card">
+                    <h4>AI Integration</h4>
+                    <p>Lambda builds the recipe prompt and calls Gemini's <code>generateContent</code>, then
+                        returns the generated recipe text to the browser UI.</p>
+                </div>
+                <div class="mini-card">
+                    <h4>Security Model</h4>
+                    <p>The frontend never holds server credentials; secrets stay in backend configuration, and
+                        IAM access is scoped to only the services each Lambda needs.</p>
+                </div>
+            </div>
+
+            <h2>API</h2>
+            <ul>
+                <li><code>POST /recipes</code>: generate a recipe from pet profile and available ingredients</li>
+                <li><code>GET /saved-recipes</code> / <code>POST /saved-recipes</code>: list and save recipes
+                    (protected)</li>
+                <li><code>GET /pet-profiles</code> / <code>POST /pet-profiles</code>: list and save pet
+                    profiles (protected)</li>
+            </ul>
+
+            <div class="note">
+                This README was written from the app's published architecture and stack rather than pulled
+                from a repo file - the source repository does not currently include a README.md.
+            </div>
+        </div>
+
+        <div class="actions">
+            <a href="https://app.joesparkman.com/pet-recipe-app/">Open App</a>
+            <a href="https://app.joesparkman.com/pet-recipe-app/story.html">Story</a>
+            <a href="https://app.joesparkman.com/pet-recipe-app/architecture-diagram.html">Visual Diagram</a>
+            <a class="secondary" href="https://www.joesparkman.com/">Back to Portfolio</a>
+        </div>
+
+        <p class="footer-note">Source repository: joesparkman/pet-recipe</p>
+    </main>
+</body>
+</html>

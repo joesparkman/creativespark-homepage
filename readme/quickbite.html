@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickBite App - README</title>
+    <meta name="description" content="README for QuickBite: a mobile-style food delivery web app built with React and AWS.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.14);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue-light: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent 40%), var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 18px 40px;
+        }
+        .shell { max-width: 860px; margin: 0 auto; }
+        .eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--blue-light); margin: 0 0 10px; font-weight: 700; }
+        h1 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: -0.02em; }
+        .lead { margin: 14px 0 28px; color: var(--muted); line-height: 1.7; max-width: 700px; }
+        .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+        .actions a { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.82rem; background: rgba(59, 130, 246, 0.14); }
+        .actions a.secondary { background: transparent; color: var(--muted); }
+        .stack-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 32px; }
+        .stack-tag { font-size: 0.72rem; font-weight: 600; color: var(--cyan); background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.22); border-radius: 999px; padding: 5px 11px; }
+        .readme-body h2 { font-family: "Space Grotesk", sans-serif; font-size: 1.15rem; color: var(--text); margin: 40px 0 12px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .readme-body h2:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+        .readme-body h3 { font-family: "Space Grotesk", sans-serif; font-size: 0.95rem; color: var(--blue-light); margin: 22px 0 8px; }
+        .readme-body p { color: var(--muted); line-height: 1.7; margin: 0 0 12px; }
+        .readme-body ul, .readme-body ol { color: var(--muted); line-height: 1.8; padding-left: 22px; margin: 0 0 16px; }
+        .readme-body li strong { color: var(--text); }
+        .readme-body code { font-family: "JetBrains Mono", monospace; font-size: 0.85em; background: rgba(99, 179, 255, 0.1); border: 1px solid rgba(99, 179, 255, 0.16); border-radius: 4px; padding: 1px 6px; color: var(--cyan); }
+        .readme-body pre { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; margin: 0 0 16px; }
+        .readme-body pre code { background: none; border: none; padding: 0; color: #cbd5e1; font-size: 0.82rem; line-height: 1.6; }
+        .readme-body table { width: 100%; border-collapse: collapse; margin: 0 0 20px; font-size: 0.85rem; }
+        .readme-body th, .readme-body td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--muted); }
+        .readme-body th { color: var(--text); font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .readme-body td code { white-space: nowrap; }
+        .footer-note { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <p class="eyebrow">README</p>
+        <h1>QuickBite App</h1>
+        <p class="lead">
+            A mobile-style food delivery web app built with React and AWS. Browse restaurants, add items to
+            your cart, and place orders - all secured with Cognito authentication.
+        </p>
+
+        <div class="stack-row">
+            <span class="stack-tag">React 18 + Vite</span>
+            <span class="stack-tag">React Router v6</span>
+            <span class="stack-tag">AWS Amplify</span>
+            <span class="stack-tag">Lambda (Python)</span>
+            <span class="stack-tag">Lambda (Node.js)</span>
+            <span class="stack-tag">API Gateway</span>
+            <span class="stack-tag">DynamoDB</span>
+            <span class="stack-tag">Cognito</span>
+            <span class="stack-tag">Terraform</span>
+            <span class="stack-tag">S3 / CloudFront</span>
+            <span class="stack-tag">GitHub Actions</span>
+        </div>
+
+        <div class="readme-body">
+            <h2>Project Structure</h2>
+            <pre><code>QuickBite/
+├── quickbite-react/        React frontend
+│   ├── src/
+│   │   ├── auth/           Cognito + Amplify config
+│   │   ├── components/     BottomNav, RestaurantCard, SectionHeader
+│   │   ├── data/            API fetch functions
+│   │   └── pages/          Home, Search, Orders, Cart, Account, etc.
+│   └── lambda/              Restaurants Lambda (Python)
+├── lambda-orders/          Orders Lambda (Node.js)
+├── terraform/               All AWS infrastructure as code
+└── .github/workflows/      GitHub Actions CI/CD</code></pre>
+
+            <h2>Pages</h2>
+            <table>
+                <thead>
+                    <tr><th>Route</th><th>Description</th><th>Auth Required</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>/</code></td><td>Home - browse restaurants</td><td>No</td></tr>
+                    <tr><td><code>/search</code></td><td>Search and filter</td><td>No</td></tr>
+                    <tr><td><code>/restaurant/:id</code></td><td>Restaurant detail + menu</td><td>No</td></tr>
+                    <tr><td><code>/cart</code></td><td>Cart and checkout</td><td>Yes</td></tr>
+                    <tr><td><code>/orders</code></td><td>Order history</td><td>Yes</td></tr>
+                    <tr><td><code>/favorites</code></td><td>Saved restaurants</td><td>Yes</td></tr>
+                    <tr><td><code>/account</code></td><td>Account settings</td><td>Yes</td></tr>
+                    <tr><td><code>/login</code></td><td>Login</td><td>No</td></tr>
+                    <tr><td><code>/signup</code></td><td>Sign up</td><td>No</td></tr>
+                </tbody>
+            </table>
+
+            <h2>Local Development</h2>
+            <pre><code>cd quickbite-react
+npm install
+npm run dev</code></pre>
+            <p>Create a <code>.env</code> file in <code>quickbite-react/</code> using <code>.env.example</code>
+                as a template:</p>
+            <pre><code>VITE_COGNITO_USER_POOL_ID=us-east-2_xxxxxxxxx
+VITE_COGNITO_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
+VITE_COGNITO_REGION=us-east-2
+VITE_API_URL=https://&lt;api-id&gt;.execute-api.us-east-2.amazonaws.com/prod/restaurants
+VITE_ORDERS_API_URL=https://&lt;api-id&gt;.execute-api.us-east-2.amazonaws.com/orders</code></pre>
+
+            <h2>Deploying</h2>
+            <h3>Build and upload frontend to S3</h3>
+            <pre><code>cd quickbite-react
+npm run build
+aws s3 sync dist/ s3://www.joesparkman.com/quickbite/ --delete
+aws cloudfront create-invalidation --distribution-id E3HHU0R4DHMA69 --paths "/quickbite/*"</code></pre>
+            <h3>Deploy infrastructure changes</h3>
+            <pre><code>cd terraform
+terraform plan
+terraform apply</code></pre>
+            <p>Or push changes to <code>main</code> and GitHub Actions applies automatically.</p>
+
+            <h2>Infrastructure</h2>
+            <p>All AWS resources are managed with Terraform (see <code>terraform/README.md</code> in the repo
+                for the full setup guide).</p>
+            <table>
+                <thead>
+                    <tr><th>Resource</th><th>Name</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>DynamoDB</td><td><code>QuickBiteRestaurants</code>, <code>QuickBiteOrders</code></td></tr>
+                    <tr><td>Cognito</td><td><code>quickbite-user-pool</code></td></tr>
+                    <tr><td>Lambda</td><td><code>QuickBiteRestaurants</code>, <code>QuickBiteOrders</code></td></tr>
+                    <tr><td>API Gateway</td><td><code>QuickBiteRestaurantsAPI</code>, <code>QuickBiteOrdersAPI</code></td></tr>
+                    <tr><td>CloudFront</td><td><code>d378laui85ajnz.cloudfront.net</code></td></tr>
+                    <tr><td>State Bucket</td><td><code>joesparkman-terraform-state</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="actions">
+            <a href="https://app.joesparkman.com/quickbite/">Open App</a>
+            <a href="https://app.joesparkman.com/quickbite/story.html">Story</a>
+            <a href="https://app.joesparkman.com/quickbite/architecture-diagram.html">Visual Diagram</a>
+            <a class="secondary" href="https://www.joesparkman.com/">Back to Portfolio</a>
+        </div>
+
+        <p class="footer-note">Source repository: joesparkman/QuickBite</p>
+    </main>
+</body>
+</html>
