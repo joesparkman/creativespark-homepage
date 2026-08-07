@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Recipe App - Build Story</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.14);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue-light: #60a5fa;
+            --cyan: #22d3ee;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent 40%), var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 18px 40px;
+        }
+
+        .shell {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--blue-light);
+            margin: 0 0 10px;
+            font-weight: 700;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(2rem, 6vw, 3rem);
+            letter-spacing: -0.02em;
+        }
+
+        .lead {
+            margin: 14px 0 28px;
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .card {
+            background: linear-gradient(135deg, var(--surface), var(--surface-2));
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .card h2 {
+            margin: 0 0 8px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 1rem;
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.65;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .actions a {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.82rem;
+            background: rgba(59, 130, 246, 0.14);
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <p class="eyebrow">Build Story</p>
+        <h1>How the Pet Recipe App Works</h1>
+        <p class="lead">
+            This app helps pet owners generate recipe ideas quickly while still using a production-ready
+            AWS architecture. It combines static hosting, secure authentication, serverless APIs,
+            and cloud persistence for saved recipes and pet profiles.
+        </p>
+
+        <section class="grid">
+            <article class="card">
+                <h2>Challenge</h2>
+                <p>Create a user-friendly experience for recipe generation while supporting secure sign-in and saved data across sessions.</p>
+            </article>
+            <article class="card">
+                <h2>Hosting Layer</h2>
+                <p>The frontend is deployed to S3 and served through CloudFront at app.joesparkman.com/pet-recipe-app for global delivery and cache control.</p>
+            </article>
+            <article class="card">
+                <h2>Auth Layer</h2>
+                <p>Amazon Cognito handles Hosted UI sign-in with PKCE. The browser stores tokens in session state and sends Bearer JWTs for protected routes.</p>
+            </article>
+            <article class="card">
+                <h2>API and Compute</h2>
+                <p>API Gateway routes requests to Lambda: POST /recipes for generation and protected GET/POST routes for saved-recipes and pet-profiles.</p>
+            </article>
+            <article class="card">
+                <h2>Data Layer</h2>
+                <p>DynamoDB persists user-scoped data in two tables: SavedRecipes and PetProfiles, keyed by identity claims from Cognito tokens.</p>
+            </article>
+            <article class="card">
+                <h2>AI Integration</h2>
+                <p>Lambda builds recipe prompts and calls Gemini generateContent, then returns the generated recipe text back to the browser UI.</p>
+            </article>
+            <article class="card">
+                <h2>Security Model</h2>
+                <p>Frontend never contains sensitive server credentials. Secret values stay in backend configuration and IAM access is scoped to required services.</p>
+            </article>
+        </section>
+
+        <div class="actions">
+            <a href="./architecture-diagram.html" target="_blank" rel="noopener noreferrer">Open Architecture Visual</a>
+            <a href="./index.html">Back to App</a>
+        </div>
+    </main>
+<style id="portfolio-home-link-style">#portfolio-home-link{position:fixed;top:14px;left:14px;z-index:99999;padding:8px 12px;border-radius:999px;background:rgba(5,8,16,.86);border:1px solid rgba(99,179,255,.35);color:#e2e8f0;font:600 12px/1.2 Arial,sans-serif;text-decoration:none;backdrop-filter:blur(8px)}#portfolio-home-link:hover{background:rgba(59,130,246,.2);border-color:rgba(99,179,255,.65)}</style><a id="portfolio-home-link" href="https://www.joesparkman.com/">Back to Portfolio</a></body>
+</html>

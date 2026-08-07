@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Website - Architecture Visual</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,500,0,0" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.2);
+            --border-soft: rgba(99, 179, 255, 0.09);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+            --purple: #a855f7;
+            --amber: #f59e0b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 18% 2%, rgba(96, 165, 250, 0.14), transparent 35%),
+                radial-gradient(circle at 92% 16%, rgba(168, 85, 247, 0.12), transparent 30%),
+                var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 16px 40px;
+        }
+
+        .mono-icon {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 26px;
+            line-height: 1;
+            display: block;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .shell {
+            max-width: 1140px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+        }
+
+        .sub {
+            margin: 10px 0 24px;
+            color: var(--muted);
+            line-height: 1.65;
+            max-width: 760px;
+        }
+
+        .board {
+            border: 1px solid var(--border-soft);
+            border-radius: 18px;
+            background: linear-gradient(145deg, rgba(12, 17, 32, 0.95), rgba(17, 24, 39, 0.94));
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+            padding: 18px;
+            overflow: hidden;
+        }
+
+        .lane {
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .lane + .lane {
+            margin-top: 12px;
+        }
+
+        .lane-title {
+            margin: 0 0 10px;
+            font-size: 0.74rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .lane-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .lane-grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+        .node {
+            border: 1px solid var(--border);
+            background: linear-gradient(135deg, var(--surface), var(--surface-2));
+            border-radius: 12px;
+            padding: 14px 12px;
+            text-align: center;
+            font-weight: 600;
+            min-height: 104px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .node .mono-icon {
+            margin: 0 auto 2px;
+            color: inherit;
+        }
+
+        .node small {
+            color: var(--muted);
+            font-weight: 500;
+            font-size: 0.74rem;
+        }
+
+        .node.blue { border-color: rgba(96, 165, 250, 0.38); color: var(--blue); }
+        .node.cyan { border-color: rgba(34, 211, 238, 0.38); color: var(--cyan); }
+        .node.green { border-color: rgba(52, 211, 153, 0.38); color: var(--green); }
+        .node.purple { border-color: rgba(168, 85, 247, 0.35); color: var(--purple); }
+        .node.amber { border-color: rgba(245, 158, 11, 0.4); color: var(--amber); }
+
+        .node span:not(.mono-icon) { color: var(--text); }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+            font-weight: 700;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .board-note {
+            margin: 12px 4px 2px;
+            color: var(--muted);
+            font-size: 0.86rem;
+            line-height: 1.55;
+        }
+
+        .legend {
+            margin-top: 20px;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .legend-item {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.55;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .legend-item .mono-icon {
+            flex: 0 0 auto;
+            margin-top: 2px;
+            color: var(--blue);
+        }
+
+        .legend-item strong {
+            color: var(--text);
+        }
+
+        .actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .actions a {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.82rem;
+            background: rgba(96, 165, 250, 0.15);
+        }
+
+        @media (max-width: 860px) {
+            .lane-grid, .lane-grid.cols-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .flow {
+                transform: rotate(90deg);
+                min-height: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <h1>Architecture Visual</h1>
+        <p class="sub">How joesparkman.com itself is built and shipped: a static frontend deployed straight to AWS, fronted by a global CDN with a custom domain, and released through a CI/CD pipeline that never touches long-lived credentials.</p>
+
+        <section class="board" aria-label="Portfolio website cloud architecture lanes">
+            <article class="lane">
+                <p class="lane-title">Deploy Pipeline</p>
+                <div class="lane-grid cols-4">
+                    <div class="node blue">
+                        <span class="mono-icon">terminal</span>
+                        <span>git push main</span>
+                        <small>Local commit pushed to GitHub</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node purple">
+                        <span class="mono-icon">rocket_launch</span>
+                        <span>GitHub Actions</span>
+                        <small>Workflow triggers on push</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node amber">
+                        <span class="mono-icon">admin_panel_settings</span>
+                        <span>IAM OIDC Role</span>
+                        <small>Short-lived, least-privilege token</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node blue">
+                        <span class="mono-icon">sync</span>
+                        <span>S3 Sync + Invalidate</span>
+                        <small>aws s3 sync + cloudfront invalidation</small>
+                    </div>
+                </div>
+            </article>
+
+            <article class="lane">
+                <p class="lane-title">Storage and Delivery</p>
+                <div class="lane-grid cols-4">
+                    <div class="node cyan">
+                        <span class="mono-icon">inventory_2</span>
+                        <span>S3 Buckets</span>
+                        <small>www + app origin buckets, us-east-2</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node cyan">
+                        <span class="mono-icon">hub</span>
+                        <span>CloudFront CDN</span>
+                        <small>Global edge caching, HTTP/2 + IPv6</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node green">
+                        <span class="mono-icon">verified_user</span>
+                        <span>ACM Certificate</span>
+                        <small>TLS 1.2+, SNI-only</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node green">
+                        <span class="mono-icon">dns</span>
+                        <span>Registrar DNS</span>
+                        <small>CNAME records &rarr; CloudFront</small>
+                    </div>
+                </div>
+            </article>
+
+            <article class="lane">
+                <p class="lane-title">Request Path</p>
+                <div class="lane-grid cols-4">
+                    <div class="node blue">
+                        <span class="mono-icon">language</span>
+                        <span>Visitor Browser</span>
+                        <small>Requests joesparkman.com</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node green">
+                        <span class="mono-icon">dns</span>
+                        <span>DNS Resolves</span>
+                        <small>CNAME record &rarr; CloudFront</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node cyan">
+                        <span class="mono-icon">hub</span>
+                        <span>CloudFront Edge</span>
+                        <small>HTTPS via ACM cert, cache hit/miss</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node cyan">
+                        <span class="mono-icon">inventory_2</span>
+                        <span>S3 Origin</span>
+                        <small>Serves index.html on a miss</small>
+                    </div>
+                </div>
+            </article>
+
+            <p class="board-note">The deploy pipeline and the live request path share the same S3 + CloudFront stack, so every push to <code>main</code> is what visitors see within seconds of the CloudFront invalidation completing.</p>
+        </section>
+
+        <section class="legend">
+            <article class="legend-item"><span class="mono-icon">rocket_launch</span><span><strong>CI/CD:</strong> GitHub Actions runs on every push to <code>main</code>, no manual deploy step.</span></article>
+            <article class="legend-item"><span class="mono-icon">admin_panel_settings</span><span><strong>Auth:</strong> The pipeline authenticates via IAM OIDC federation, a short-lived role scoped only to S3 sync and CloudFront invalidation, no static access keys.</span></article>
+            <article class="legend-item"><span class="mono-icon">inventory_2</span><span><strong>Storage:</strong> Two S3 buckets (<code>www</code> and <code>app</code>) hold the site's static assets, kept in sync on every deploy.</span></article>
+            <article class="legend-item"><span class="mono-icon">hub</span><span><strong>CDN:</strong> CloudFront serves the site globally, gzip-compressed, over HTTP/2 and IPv6, with a full cache invalidation on each release.</span></article>
+            <article class="legend-item"><span class="mono-icon">verified_user</span><span><strong>TLS:</strong> An ACM certificate terminates HTTPS at the CloudFront edge; viewer traffic is always redirected to HTTPS.</span></article>
+            <article class="legend-item"><span class="mono-icon">dns</span><span><strong>DNS:</strong> The registrar's DNS resolves joesparkman.com, www.joesparkman.com, and app.joesparkman.com via CNAME records pointed at the CloudFront distribution.</span></article>
+        </section>
+
+        <div class="actions">
+            <a href="https://www.joesparkman.com/">Back to Portfolio</a>
+            <a href="https://github.com/joesparkman/creativespark-homepage">View Source</a>
+        </div>
+    </main>
+</body>
+</html>

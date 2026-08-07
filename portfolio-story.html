@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Website - Build Story</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.14);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue-light: #60a5fa;
+            --cyan: #22d3ee;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent 40%), var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 18px 40px;
+        }
+
+        .shell {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--blue-light);
+            margin: 0 0 10px;
+            font-weight: 700;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(2rem, 6vw, 3rem);
+            letter-spacing: -0.02em;
+        }
+
+        .lead {
+            margin: 14px 0 28px;
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .card {
+            background: linear-gradient(135deg, var(--surface), var(--surface-2));
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .card h2 {
+            margin: 0 0 8px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 1rem;
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.65;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .actions a {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.82rem;
+            background: rgba(59, 130, 246, 0.14);
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <p class="eyebrow">Build Story</p>
+        <h1>Why This Site Runs Entirely on AWS</h1>
+        <p class="lead">
+            After completing the AWS Cloud Institute program, I wanted a portfolio that did more than list
+            certifications: I wanted it to be proof. So instead of a template site on a page builder, this
+            site is deployed with the same production AWS patterns showcased in the projects above: static
+            hosting, a global CDN, managed DNS and TLS, and an automated, security-conscious deploy pipeline.
+        </p>
+
+        <section class="grid">
+            <article class="card">
+                <h2>Challenge</h2>
+                <p>Certificates prove you passed an exam. They don't prove you can run real infrastructure. I wanted a live site that visitors, and recruiters, could inspect end-to-end as evidence of applied cloud skill, not just a resume line.</p>
+            </article>
+            <article class="card">
+                <h2>Hosting and Delivery</h2>
+                <p>The frontend is a hand-built static site synced to S3 and served globally through CloudFront, with gzip compression and HTTP/2 for fast loads anywhere.</p>
+            </article>
+            <article class="card">
+                <h2>DNS and TLS</h2>
+                <p>The custom domain routes to CloudFront via CNAME records at the registrar, with a Certificate Manager (ACM) certificate handling HTTPS at the CloudFront edge so every visit is encrypted by default.</p>
+            </article>
+            <article class="card">
+                <h2>CI/CD Pipeline</h2>
+                <p>Every push to main triggers a GitHub Actions workflow that syncs the site to S3 and invalidates the CloudFront cache automatically, with no manual upload steps, ever.</p>
+            </article>
+            <article class="card">
+                <h2>Security Hardening</h2>
+                <p>The deploy pipeline originally used long-lived IAM access keys with broad admin permissions. I re-architected it to authenticate through short-lived IAM OIDC federation, scoped to a least-privilege role that can only touch this site's two buckets and one CloudFront distribution.</p>
+            </article>
+            <article class="card">
+                <h2>Continuous Improvement</h2>
+                <p>While auditing the deployment, I found internal AWS config files were unintentionally being published alongside the site. I removed the exposure, purged the CDN cache, and rebuilt the deploy process to exclude infrastructure files going forward, the kind of real-world troubleshooting that doesn't show up on a certification.</p>
+            </article>
+        </section>
+
+        <div class="actions">
+            <a href="./portfolio-architecture.html">Open Architecture Visual</a>
+            <a href="https://www.joesparkman.com/">Back to Portfolio</a>
+        </div>
+    </main>
+</body>
+</html>

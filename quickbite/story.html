@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuickBite Story</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #101a2d;
+      --text: #e6edf6;
+      --muted: #9fb0c9;
+      --accent: #45c0ff;
+      --accent-2: #23d18b;
+      --border: rgba(255, 255, 255, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(69, 192, 255, 0.14), transparent 45%),
+        radial-gradient(circle at 90% 85%, rgba(35, 209, 139, 0.12), transparent 42%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px 56px;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(69, 192, 255, 0.15);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      border: 1px solid rgba(69, 192, 255, 0.35);
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(30px, 4.2vw, 48px);
+      line-height: 1.08;
+    }
+
+    .lead {
+      color: var(--muted);
+      margin: 0 0 28px;
+      font-size: 18px;
+      max-width: 760px;
+    }
+
+    .card {
+      background: linear-gradient(165deg, rgba(16, 26, 45, 0.95), rgba(10, 18, 34, 0.95));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 14px;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.35);
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    p { margin: 0; }
+
+    .actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(69, 192, 255, 0.6);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(69, 192, 255, 0.28), rgba(35, 209, 139, 0.2));
+      border-color: rgba(69, 192, 255, 0.55);
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <span class="pill">Project Story</span>
+    <h1>QuickBite: From menu browsing to checkout in a single smooth flow.</h1>
+    <p class="lead">
+      QuickBite was built to mimic a real food-ordering experience with login, protected routes,
+      responsive browsing, and a focused cart-to-checkout journey.
+    </p>
+
+    <section class="card">
+      <h2>Problem</h2>
+      <p>
+        Users needed a fast, mobile-friendly ordering interface that felt intuitive while enforcing
+        secure authentication before checkout.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Approach</h2>
+      <p>
+        The app uses React + Vite on the frontend with AWS-backed authentication and API services.
+        Routing and state were organized to keep the browsing and cart flow predictable and easy to use.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Outcome</h2>
+      <p>
+        The result is a polished demo experience with realistic ordering interactions and cloud-ready
+        deployment patterns that map cleanly to production workflows.
+      </p>
+    </section>
+
+    <div class="actions">
+      <a class="btn primary" href="/quickbite/">Open QuickBite App</a>
+      <a class="btn" href="/quickbite/architecture-diagram.html">View Architecture Diagram</a>
+      <a class="btn" href="https://app.joesparkman.com/">Back to Portfolio</a>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+name: Deploy Homepage to S3
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::196403805571:role/github-actions-creativespark-deploy
+        aws-region: us-east-1
+
+    - name: Sync Homepage to Root S3 Bucket
+      run: |
+        aws s3 sync . s3://www.joesparkman.com --region us-east-2 --exclude ".git/*" --exclude ".github/*" --exclude "infra/*"
+
+    - name: Sync Homepage to App S3 Bucket
+      run: |
+        aws s3 sync . s3://app.joesparkman.com --region us-east-2 --exclude ".git/*" --exclude ".github/*" --exclude "infra/*"
+
+    - name: Invalidate CloudFront Cache
+      run: |
+        aws cloudfront create-invalidation --distribution-id E3HHU0R4DHMA69 --paths "/*"

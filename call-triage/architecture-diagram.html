@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Triage Pipeline - Architecture Visual</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.2);
+            --border-soft: rgba(99, 179, 255, 0.09);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+            --purple: #a855f7;
+            --amber: #f59e0b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 18% 2%, rgba(96, 165, 250, 0.14), transparent 35%),
+                radial-gradient(circle at 92% 16%, rgba(168, 85, 247, 0.12), transparent 30%),
+                var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 16px 40px;
+        }
+
+        .shell {
+            max-width: 1140px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+        }
+
+        .sub {
+            margin: 10px 0 24px;
+            color: var(--muted);
+            line-height: 1.65;
+            max-width: 780px;
+        }
+
+        .board {
+            border: 1px solid var(--border-soft);
+            border-radius: 18px;
+            background: linear-gradient(145deg, rgba(12, 17, 32, 0.95), rgba(17, 24, 39, 0.94));
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+            padding: 18px;
+            overflow: hidden;
+        }
+
+        .lane {
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .lane + .lane {
+            margin-top: 12px;
+        }
+
+        .lane-title {
+            margin: 0 0 10px;
+            font-size: 0.74rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .lane-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .node {
+            border: 1px solid var(--border);
+            background: linear-gradient(135deg, var(--surface), var(--surface-2));
+            border-radius: 12px;
+            padding: 14px 12px;
+            font-weight: 600;
+            min-height: 94px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .node-head {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .node-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .node-icon svg { width: 13px; height: 13px; display: block; }
+
+        .node small {
+            color: var(--muted);
+            font-weight: 500;
+            font-size: 0.74rem;
+        }
+
+        .node.blue { border-color: rgba(96, 165, 250, 0.38); }
+        .node.cyan { border-color: rgba(34, 211, 238, 0.38); }
+        .node.green { border-color: rgba(52, 211, 153, 0.38); }
+        .node.purple { border-color: rgba(168, 85, 247, 0.35); }
+        .node.amber { border-color: rgba(245, 158, 11, 0.35); }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+            font-weight: 700;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .board-note {
+            margin: 12px 4px 2px;
+            color: var(--muted);
+            font-size: 0.86rem;
+            line-height: 1.55;
+        }
+
+        .legend {
+            margin-top: 20px;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .legend-item {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.55;
+        }
+
+        .legend-item strong {
+            color: var(--text);
+        }
+
+        .actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .actions a {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.82rem;
+            background: rgba(96, 165, 250, 0.15);
+        }
+
+        @media (max-width: 860px) {
+            .lane-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow {
+                transform: rotate(90deg);
+                min-height: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <h1>Architecture Visual</h1>
+        <p class="sub">How a GoTo Connect voicemail becomes a triaged, urgency-flagged email: from S3 upload through Whisper transcription, GPT-4o-mini triage, DynamoDB persistence, and SES delivery, plus a scheduled weekly digest.</p>
+
+        <section class="board" aria-label="Call triage pipeline architecture lanes">
+            <article class="lane">
+                <p class="lane-title">Call Ingestion</p>
+                <div class="lane-grid">
+                    <div class="node blue">
+                        <div class="node-head">
+                            <span class="node-icon" style="background:#546e7a"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4c0 9.4 6.6 16 16 16l2-4-6-2-2 2c-3-1.4-5.6-4-7-7l2-2-2-6z"/></svg></span>
+                            GoTo Connect
+                        </div>
+                        <small>Tenant call recorded and dropped as an audio file</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node blue">
+                        <div class="node-head">
+                            <span class="node-icon" style="background:#7AA116"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6c0-1.1 3.1-2 7-2s7 .9 7 2"/><path d="M5 6l1.4 12.6c.1 1 2.7 1.8 5.6 1.8s5.5-.8 5.6-1.8L20 6"/><path d="M6.2 9.6c1.3.6 3.4 1 5.8 1s4.5-.4 5.8-1"/></svg></span>
+                            S3: recordings/
+                        </div>
+                        <small>Existing bucket, untouched, pipeline only adds an event notification</small>
+                    </div>
+                </div>
+            </article>
+
+            <article class="lane">
+                <p class="lane-title">Transcription and Triage</p>
+                <div class="lane-grid">
+                    <div class="node cyan">
+                        <div class="node-head">
+                            <span class="node-icon" style="background:#ED7100"><svg viewBox="0 0 24 24"><text x="12" y="17.5" font-size="16" font-family="Georgia,'Times New Roman',serif" fill="white" text-anchor="middle">&#955;</text></svg></span>
+                            Lambda: start_transcription
+                        </div>
+                        <small>S3 ObjectCreated trigger, orchestrates the whole call flow</small>
+                    </div>
+                    <div class="node cyan">
+                        <div class="node-head">
+                            <span class="node-icon" style="background:#A855F7"><svg viewBox="0 0 24 24" fill="white"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg></span>
+                            OpenAI Whisper
+                        </div>
+                        <small>Speech-to-text transcription of the call recording</small>
+                    </div>
+                    <div class="node cyan">
+                        <div class="node-head">
+                            <span class="node-icon" style="background:#A855F7"><svg viewBox="0 0 24 24" fill="white"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg></span>
+                            GPT-4o-mini
+                        </div>
+                        <small>Category, urgency flags, summary, and action items</small>
+                    </div>
+                </div>
+            </article>
+
+            <article class="lane">
+                <p class="lane-title">Persistence and Notification</p>
+                <div class="lane-grid">
+                    <div class="node green">
+                        <div class="node-head">
+                            <span class="node-icon" style="background:#4053D6"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6.2" rx="6.8" ry="2.2"/><path d="M5.2 6.2v11.6c0 1.2 3 2.2 6.8 2.2s6.8-1 6.8-2.2V6.2"/><path d="M5.2 12c0 1.2 3 2.2 6.8 2.2s6.8-1 6.8-2.2"/></svg></span>
+                            DynamoDB: CallLog
+                        </div>
+                        <small>One item per call, keyed by call_id + processed_at</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node green">
+                        <div class="node-head">
+                            <span class="node-icon" style="background:#BC1356"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.2" y="6" width="17.6" height="12" rx="1.4"/><path d="M4 7l8 6 8-6"/></svg></span>
+                            Amazon SES
+                        </div>
+                        <small>Per-call triage email to the property manager</small>
+                    </div>
+                </div>
+            </article>
+
+            <article class="lane">
+                <p class="lane-title">Weekly Digest</p>
+                <div class="lane-grid">
+                    <div class="node amber">
+                        <div class="node-head">
+                            <span class="node-icon" style="background:#8C4FFF"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="2"/><path d="M3.5 9h17M8 3v3M16 3v3"/></svg></span>
+                            EventBridge: weekly schedule
+                        </div>
+                        <small>Cron trigger, Monday 08:00</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node amber">
+                        <div class="node-head">
+                            <span class="node-icon" style="background:#ED7100"><svg viewBox="0 0 24 24"><text x="12" y="17.5" font-size="16" font-family="Georgia,'Times New Roman',serif" fill="white" text-anchor="middle">&#955;</text></svg></span>
+                            Lambda: weekly_summary
+                        </div>
+                        <small>Queries the past 7 days from CallLog, rolls up highlights</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node amber">
+                        <div class="node-head">
+                            <span class="node-icon" style="background:#BC1356"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.2" y="6" width="17.6" height="12" rx="1.4"/><path d="M4 7l8 6 8-6"/></svg></span>
+                            Amazon SES
+                        </div>
+                        <small>Weekly digest email</small>
+                    </div>
+                </div>
+            </article>
+
+            <p class="board-note">Filename/metadata parsing never raises: anything it can't confidently extract degrades to "unknown" rather than stalling the pipeline. Secrets (OpenAI API key) are injected via a sensitive Terraform variable at deploy time, never hardcoded.</p>
+        </section>
+
+        <section class="legend">
+            <article class="legend-item"><strong>Ingestion layer:</strong> GoTo Connect drops call recordings into an existing S3 bucket under recordings/. The pipeline adds a notification; it doesn't take ownership of the bucket.</article>
+            <article class="legend-item"><strong>Transcription layer:</strong> Lambda calls the OpenAI Whisper API to turn the recording into text, then hands it to GPT-4o-mini for classification.</article>
+            <article class="legend-item"><strong>Triage layer:</strong> GPT-4o-mini returns category, urgency flags (e.g. maintenance_emergency), a plain-language summary, and action items.</article>
+            <article class="legend-item"><strong>Persistence layer:</strong> DynamoDB's CallLog table is the single source of truth for both per-call lookups and the weekly digest query.</article>
+            <article class="legend-item"><strong>Notification layer:</strong> Amazon SES sends both the immediate per-call triage email and the Monday-morning weekly digest.</article>
+            <article class="legend-item"><strong>Scheduling layer:</strong> An EventBridge cron rule triggers weekly_summary independently of call volume, so the digest always goes out.</article>
+        </section>
+
+        <div class="actions">
+            <a href="./story.html">Read Build Story</a>
+            <a href="./index.html">Back to Demo</a>
+            <a href="https://github.com/joesparkman/call-triage-pipeline">GitHub README</a>
+        </div>
+    </main>
+<style id="portfolio-home-link-style">#portfolio-home-link{position:fixed;top:14px;left:14px;z-index:99999;padding:8px 12px;border-radius:999px;background:rgba(5,8,16,.86);border:1px solid rgba(99,179,255,.35);color:#e2e8f0;font:600 12px/1.2 Arial,sans-serif;text-decoration:none;backdrop-filter:blur(8px)}#portfolio-home-link:hover{background:rgba(59,130,246,.2);border-color:rgba(99,179,255,.65)}</style><a id="portfolio-home-link" href="https://www.joesparkman.com/">Back to Portfolio</a></body>
+</html>

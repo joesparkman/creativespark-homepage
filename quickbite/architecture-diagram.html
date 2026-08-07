@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuickBite App - Architecture Visual</title>
+  <style>
+    :root {
+      --bg: #090f1a;
+      --panel: #101a2d;
+      --text: #ecf3ff;
+      --muted: #9ab0cf;
+      --line: #274261;
+      --accent: #42b5ff;
+      --accent-2: #2ee59d;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(66, 181, 255, 0.15), transparent 45%),
+        radial-gradient(circle at 90% 90%, rgba(46, 229, 157, 0.12), transparent 45%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px 18px 48px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.1;
+    }
+
+    .sub {
+      margin: 10px 0 24px;
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .node {
+      background: linear-gradient(165deg, rgba(16, 26, 45, 0.96), rgba(10, 18, 34, 0.96));
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 14px;
+      min-height: 96px;
+      position: relative;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .node h2 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      color: #cde8ff;
+    }
+
+    .node p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .edge {
+      height: 2px;
+      background: linear-gradient(90deg, var(--line), rgba(66, 181, 255, 0.8), var(--line));
+      border-radius: 999px;
+      grid-column: span 12;
+      opacity: 0.9;
+    }
+
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .span-12 { grid-column: span 12; }
+
+    .actions {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .btn.primary {
+      border-color: rgba(66, 181, 255, 0.6);
+      background: linear-gradient(135deg, rgba(66, 181, 255, 0.26), rgba(46, 229, 157, 0.2));
+    }
+
+    @media (max-width: 860px) {
+      .span-4, .span-6 { grid-column: span 12; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>QuickBite Architecture</h1>
+    <p class="sub">
+      Frontend app assets are delivered via S3 + CloudFront, while authenticated APIs route through
+      API Gateway to Lambda functions with persistent data in DynamoDB.
+    </p>
+
+    <section class="grid" aria-label="QuickBite architecture diagram">
+      <article class="node span-4">
+        <h2>User Browser</h2>
+        <p>Loads the React app and sends authenticated API requests.</p>
+      </article>
+      <article class="node span-4">
+        <h2>CloudFront CDN</h2>
+        <p>Caches and serves static files with low-latency global delivery.</p>
+      </article>
+      <article class="node span-4">
+        <h2>S3 Static Hosting</h2>
+        <p>Stores built assets: HTML, JS, CSS, media and route entry points.</p>
+      </article>
+
+      <div class="edge"></div>
+
+      <article class="node span-6">
+        <h2>Cognito Authentication</h2>
+        <p>Handles user sign-up/sign-in and issues tokens used by the frontend.</p>
+      </article>
+      <article class="node span-6">
+        <h2>API Gateway</h2>
+        <p>Secures and routes requests from the client to backend Lambdas.</p>
+      </article>
+
+      <div class="edge"></div>
+
+      <article class="node span-6">
+        <h2>AWS Lambda Services</h2>
+        <p>Implements business logic for menus, cart interactions, and order processing.</p>
+      </article>
+      <article class="node span-6">
+        <h2>DynamoDB</h2>
+        <p>Persists user and order data with scalable, low-latency access.</p>
+      </article>
+    </section>
+
+    <div class="actions">
+      <a class="btn primary" href="/quickbite/">Open QuickBite App</a>
+      <a class="btn" href="/quickbite/story.html">Read Story</a>
+      <a class="btn" href="https://app.joesparkman.com/">Back to Portfolio</a>
+    </div>
+  </main>
+</body>
+</html>

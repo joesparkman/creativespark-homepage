@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Recipe App - Architecture Visual</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.2);
+            --border-soft: rgba(99, 179, 255, 0.09);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+            --purple: #a855f7;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 18% 2%, rgba(96, 165, 250, 0.14), transparent 35%),
+                radial-gradient(circle at 92% 16%, rgba(168, 85, 247, 0.12), transparent 30%),
+                var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 16px 40px;
+        }
+
+        .shell {
+            max-width: 1140px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+        }
+
+        .sub {
+            margin: 10px 0 24px;
+            color: var(--muted);
+            line-height: 1.65;
+            max-width: 760px;
+        }
+
+        .board {
+            border: 1px solid var(--border-soft);
+            border-radius: 18px;
+            background: linear-gradient(145deg, rgba(12, 17, 32, 0.95), rgba(17, 24, 39, 0.94));
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+            padding: 18px;
+            overflow: hidden;
+        }
+
+        .lane {
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .lane + .lane {
+            margin-top: 12px;
+        }
+
+        .lane-title {
+            margin: 0 0 10px;
+            font-size: 0.74rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .lane-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .node {
+            border: 1px solid var(--border);
+            background: linear-gradient(135deg, var(--surface), var(--surface-2));
+            border-radius: 12px;
+            padding: 14px 12px;
+            text-align: center;
+            font-weight: 600;
+            min-height: 94px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .node small {
+            color: var(--muted);
+            font-weight: 500;
+            font-size: 0.74rem;
+        }
+
+        .node.blue { border-color: rgba(96, 165, 250, 0.38); }
+        .node.cyan { border-color: rgba(34, 211, 238, 0.38); }
+        .node.green { border-color: rgba(52, 211, 153, 0.38); }
+        .node.purple { border-color: rgba(168, 85, 247, 0.35); }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+            font-weight: 700;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .board-note {
+            margin: 12px 4px 2px;
+            color: var(--muted);
+            font-size: 0.86rem;
+            line-height: 1.55;
+        }
+
+        .legend {
+            margin-top: 20px;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .legend-item {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.55;
+        }
+
+        .legend-item strong {
+            color: var(--text);
+        }
+
+        .actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .actions a {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.82rem;
+            background: rgba(96, 165, 250, 0.15);
+        }
+
+        @media (max-width: 860px) {
+            .lane-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow {
+                transform: rotate(90deg);
+                min-height: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <h1>Architecture Visual</h1>
+        <p class="sub">Complete production architecture for Pet Recipe App, from static frontend delivery through authentication, protected API routes, serverless compute, AI generation, and persistent storage.</p>
+
+        <section class="board" aria-label="Pet recipe cloud architecture lanes">
+            <article class="lane">
+                <p class="lane-title">Delivery and Frontend</p>
+                <div class="lane-grid">
+                    <div class="node blue">User Browser<small>Loads app and enters pet details</small></div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node blue">CloudFront CDN<small>app.joesparkman.com edge delivery</small></div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node blue">S3 Static Hosting<small>index.html, app.js, styles.css</small></div>
+                </div>
+            </article>
+
+            <article class="lane">
+                <p class="lane-title">Auth and API Routing</p>
+                <div class="lane-grid">
+                    <div class="node purple">Amazon Cognito<small>Hosted UI + PKCE + JWT tokens</small></div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node cyan">API Gateway HTTP API<small>/recipes, /saved-recipes, /pet-profiles</small></div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node cyan">Lambda (Python)<small>route dispatch and token-claim user mapping</small></div>
+                </div>
+            </article>
+
+            <article class="lane">
+                <p class="lane-title">Generation and Persistence</p>
+                <div class="lane-grid">
+                    <div class="node green">Gemini API<small>generateContent for recipe output</small></div>
+                    <div class="flow">&harr;</div>
+                    <div class="node green">Lambda Runtime<small>prompt builder + response formatting</small></div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node green">DynamoDB Tables<small>SavedRecipes and PetProfiles</small></div>
+                </div>
+            </article>
+
+            <p class="board-note">Protected endpoints require Cognito bearer tokens. Recipe generation and saved data are user-scoped through JWT claim mapping in Lambda.</p>
+        </section>
+
+        <section class="legend">
+            <article class="legend-item"><strong>Hosting layer:</strong> CloudFront serves the app globally while S3 stores static frontend assets under the pet-recipe-app path.</article>
+            <article class="legend-item"><strong>Auth layer:</strong> Cognito handles sign-in and issues JWT tokens used as Bearer auth for protected save/list API routes.</article>
+            <article class="legend-item"><strong>Compute layer:</strong> API Gateway routes requests to Lambda for recipe generation and user-scoped persistence operations.</article>
+            <article class="legend-item"><strong>Data layer:</strong> DynamoDB stores saved recipes and pet profiles keyed by signed-in user identity from token claims.</article>
+            <article class="legend-item"><strong>AI layer:</strong> Lambda sends prompt content to Gemini and returns recipe text to the frontend response panel.</article>
+            <article class="legend-item"><strong>Security posture:</strong> Sensitive credentials stay server-side in environment/secret configuration, never in frontend code.</article>
+        </section>
+
+        <div class="actions">
+            <a href="./story.html" target="_blank" rel="noopener noreferrer">Read Build Story</a>
+            <a href="./index.html">Back to App</a>
+        </div>
+    </main>
+<style id="portfolio-home-link-style">#portfolio-home-link{position:fixed;top:14px;left:14px;z-index:99999;padding:8px 12px;border-radius:999px;background:rgba(5,8,16,.86);border:1px solid rgba(99,179,255,.35);color:#e2e8f0;font:600 12px/1.2 Arial,sans-serif;text-decoration:none;backdrop-filter:blur(8px)}#portfolio-home-link:hover{background:rgba(59,130,246,.2);border-color:rgba(99,179,255,.65)}</style><a id="portfolio-home-link" href="https://www.joesparkman.com/">Back to Portfolio</a></body>
+</html>

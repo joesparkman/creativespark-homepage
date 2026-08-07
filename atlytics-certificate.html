@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATLytics Data Analytics Certificate | Joe Sparkman</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #050810;
+  --surface:   #0c1120;
+  --surface2:  #111827;
+  --border:    rgba(99,179,255,0.12);
+  --border2:   rgba(99,179,255,0.06);
+  --blue:      #3b82f6;
+  --blue-light:#60a5fa;
+  --cyan:      #22d3ee;
+  --purple:    #a855f7;
+  --green:     #34d399;
+  --text:      #e2e8f0;
+  --text-muted:#64748b;
+  --text-dim:  #334155;
+  --font-main: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 999; opacity: 0.4;
+}
+
+.bg-orbs {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  overflow: hidden;
+}
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(100px); opacity: 0.18;
+  animation: orbFloat 12s ease-in-out infinite;
+}
+.orb-1 { width:600px;height:600px;top:-200px;left:-200px;background:radial-gradient(circle,#3b82f6,transparent); animation-delay:0s; }
+.orb-2 { width:500px;height:500px;top:40%;right:-150px;background:radial-gradient(circle,#a855f7,transparent); animation-delay:-4s; }
+.orb-3 { width:400px;height:400px;bottom:-100px;left:30%;background:radial-gradient(circle,#22d3ee,transparent); animation-delay:-8s; }
+
+@keyframes orbFloat {
+  0%,100% { transform: translateY(0px) scale(1); }
+  50%      { transform: translateY(-40px) scale(1.05); }
+}
+
+.bg-grid {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+}
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 48px;
+  background: rgba(5,8,16,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border2);
+}
+
+.nav-logo {
+  font-family: var(--font-main);
+  font-size: 1.1rem; font-weight: 700;
+  letter-spacing: -0.02em; color: var(--text);
+}
+
+.nav-logo span { color: var(--blue-light); }
+
+.nav-back {
+  font-size: 0.85rem; font-weight: 600;
+  padding: 8px 20px; border-radius: 6px;
+  background: var(--blue); color: #fff;
+  text-decoration: none; letter-spacing: 0.02em;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 20px rgba(59,130,246,0.3);
+}
+
+.nav-back:hover { background: var(--blue-light); box-shadow: 0 0 30px rgba(59,130,246,0.5); }
+
+.certificate-container {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 120px 24px 60px;
+}
+
+.certificate-box {
+  width: min(900px, 95vw);
+  background: linear-gradient(135deg, rgba(12,17,32,0.95) 0%, rgba(17,24,39,0.9) 100%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(99,179,255,0.06), inset 0 1px 0 rgba(255,255,255,0.05);
+  animation: fadeUp 0.8s ease both;
+}
+
+.certificate-box::before {
+  content: '';
+  position: absolute; inset: -1px; border-radius: 20px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(168,85,247,0.1), transparent 60%);
+  pointer-events: none; z-index: -1;
+}
+
+.certificate-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+.certificate-title {
+  font-family: var(--font-main);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 32px;
+  text-align: center;
+  color: var(--text);
+}
+
+.certificate-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .certificate-container { padding: 100px 16px 40px; }
+  .certificate-box { padding: 24px; }
+  .certificate-title { margin-top: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+<div class="bg-grid"></div>
+
+<nav>
+  <div class="nav-logo">Joe <span>Sparkman</span></div>
+  <a href="/" class="nav-back">← Back to Portfolio</a>
+</nav>
+
+<div class="certificate-container">
+  <div class="certificate-box">
+    <img src="https://www.joesparkman.com/atlytics-certificate-full.png" alt="ATLytics Data Analytics Certificate" class="certificate-image">
+    <h1 class="certificate-title">ATLytics Data Analytics Certificate</h1>
+    <p class="certificate-subtitle">
+      Completion of 96 hours of coursework in data analytics, including Advanced Excel, Statistics, SQL, Tableau, Data Visualization, Data Transformation and Data Analysis.<br>
+      <strong>Completed: November 4, 2022</strong>
+    </p>
+  </div>
+</div>
+
+</body>
+</html>

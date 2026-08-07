@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Call Triage Pipeline: Story</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050810;
+      --surface: #0c1120;
+      --surface-2: #111827;
+      --text: #e2e8f0;
+      --muted: #8ea2bb;
+      --border: rgba(99, 179, 255, 0.16);
+      --blue: #60a5fa;
+      --cyan: #22d3ee;
+      --purple: #a855f7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background:
+        radial-gradient(circle at 12% 4%, rgba(96, 165, 250, 0.14), transparent 38%),
+        radial-gradient(circle at 92% 14%, rgba(168, 85, 247, 0.12), transparent 32%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.65;
+    }
+
+    .wrap {
+      max-width: 940px;
+      margin: 0 auto;
+      padding: 44px 20px 60px;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(96, 165, 250, 0.14);
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid rgba(96, 165, 250, 0.35);
+    }
+
+    h1 {
+      margin: 16px 0 12px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(30px, 4.4vw, 48px);
+      line-height: 1.1;
+    }
+
+    .lead {
+      color: var(--muted);
+      margin: 0 0 30px;
+      font-size: 18px;
+      max-width: 720px;
+    }
+
+    .card {
+      background: linear-gradient(165deg, rgba(12, 17, 32, 0.95), rgba(17, 24, 39, 0.94));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-bottom: 14px;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 21px;
+      color: var(--blue);
+    }
+
+    .card p { margin: 0 0 10px; color: var(--text); }
+    .card p:last-child { margin-bottom: 0; }
+    .card ul { margin: 8px 0 0; padding-left: 20px; color: var(--muted); }
+    .card li { margin-bottom: 6px; }
+    .card li strong { color: var(--text); }
+
+    .quote {
+      border-left: 3px solid var(--purple);
+      padding-left: 16px;
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .actions {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(96, 165, 250, 0.6);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(96, 165, 250, 0.28), rgba(168, 85, 247, 0.2));
+      border-color: rgba(96, 165, 250, 0.55);
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <span class="pill">Project Story</span>
+    <h1>A property manager shouldn't have to listen to every voicemail to find the one that's flooding.</h1>
+    <p class="lead">
+      Call Triage Pipeline turns raw GoTo Connect call recordings into categorized,
+      urgency-ranked summaries delivered straight to a property manager's inbox,
+      so an active leak gets seen in minutes, not whenever someone gets around to
+      the voicemail box.
+    </p>
+
+    <section class="card">
+      <h2>Problem</h2>
+      <p>
+        A property management client was fielding tenant calls through GoTo Connect,
+        maintenance emergencies, rent questions, leasing inquiries, complaints, all
+        landing in the same undifferentiated pile of recordings. Nothing distinguished
+        "my kitchen is flooding right now" from a routine lease renewal question until
+        a human sat down and listened to each one.
+      </p>
+      <p class="quote">"We do not want a fragile workflow that breaks every time a file name changes." (client's top concern going in)</p>
+    </section>
+
+    <section class="card">
+      <h2>Approach</h2>
+      <p>
+        Every recording GoTo Connect drops into S3 triggers a Lambda that transcribes
+        the call with OpenAI's Whisper API, then hands the transcript to GPT-4o-mini
+        for classification: category, urgency flags, a plain-language summary, and
+        concrete action items. The result is logged to DynamoDB as the single source
+        of truth for that call, and a triage email goes out over Amazon SES immediately.
+      </p>
+      <ul>
+        <li><strong>Urgency-first triage</strong>: active flooding or no-heat calls are flagged distinctly from routine leasing questions, right in the subject line of the email.</li>
+        <li><strong>Never-fail parsing</strong>: filename and metadata extraction degrades to "unknown" instead of throwing, so one malformed recording can't stall the whole pipeline.</li>
+        <li><strong>DynamoDB as source of truth</strong>: one <code>CallLog</code> item per call keyed by <code>call_id</code> and <code>processed_at</code>, so the weekly digest is a fast query, not an S3 prefix scan.</li>
+        <li><strong>A weekly digest, not just per-call noise</strong>: an EventBridge-scheduled Lambda rolls up the past 7 days into a single Monday-morning summary email.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Outcome</h2>
+      <p>
+        A missed call about active flooding now reaches a property manager as a
+        flagged, urgent email within minutes of the recording landing in S3, no one
+        has to triage voicemails by ear. Routine questions still get logged and
+        summarized, just without waking anyone up over them.
+      </p>
+      <p>
+        The interactive demo above walks through three real scenarios end-to-end:
+        an emergency, an "in-between" case, and a routine call, using the same
+        transcription and triage logic, so you can see how the categorization
+        actually reads on real audio.
+      </p>
+    </section>
+
+    <div class="actions">
+      <a class="btn primary" href="./index.html">Open the Demo</a>
+      <a class="btn" href="./architecture-diagram.html">View Architecture Diagram</a>
+      <a class="btn" href="https://github.com/joesparkman/call-triage-pipeline">GitHub README</a>
+      <a class="btn" href="https://www.joesparkman.com/#projects">Back to Portfolio</a>
+    </div>
+  </main>
+</body>
+</html>
