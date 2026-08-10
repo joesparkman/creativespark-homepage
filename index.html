@@ -731,6 +731,28 @@ footer {
           onclick="toggleDemoVideo(this)"
           onplay="this.closest('.demo-video-wrap').classList.add('is-active')"
           onpause="this.closest('.demo-video-wrap').classList.remove('is-active')">
+          <source src="./algo_visualizer_app.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="demo-play-hint"><span class="mono-icon">play_circle</span></div>
+      </div>
+      <div class="demo-info">
+        <div class="demo-title">Algorithm & Logistics Visualizer</div>
+        <a href="https://algo.joesparkman.com"
+           style="color: var(--blue-light); text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px; margin-top: 6px;">
+          Launch Live Demo
+          <span class="mono-icon" style="font-size: 1rem;">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="demo-card">
+      <div class="demo-video-wrap">
+        <video muted playsinline loop preload="metadata"
+          onloadedmetadata="this.currentTime = Math.min(2, (this.duration||4)/2);"
+          onclick="toggleDemoVideo(this)"
+          onplay="this.closest('.demo-video-wrap').classList.add('is-active')"
+          onpause="this.closest('.demo-video-wrap').classList.remove('is-active')">
           <source src="./quickbite_app.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
