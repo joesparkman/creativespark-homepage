@@ -847,6 +847,23 @@ footer {
         <div class="demo-title">Call Triage Pipeline</div>
       </div>
     </div>
+
+    <div class="demo-card">
+      <div class="demo-video-wrap">
+        <video muted playsinline loop preload="metadata"
+          onloadedmetadata="this.currentTime = Math.min(2, (this.duration||4)/2);"
+          onclick="toggleDemoVideo(this)"
+          onplay="this.closest('.demo-video-wrap').classList.add('is-active')"
+          onpause="this.closest('.demo-video-wrap').classList.remove('is-active')">
+          <source src="./trend_draw_app.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="demo-play-hint"><span class="mono-icon">play_circle</span></div>
+      </div>
+      <div class="demo-info">
+        <div class="demo-title">TrendDraw</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1140,6 +1157,41 @@ footer {
           <a class="project-action" href="https://www.joesparkman.com/portfolio-story.html">Story</a>
           <a class="project-action" href="https://www.joesparkman.com/portfolio-architecture.html">Visual Diagram</a>
           <a class="project-action" href="https://www.joesparkman.com/readme/portfolio.html">README</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-preview" data-preview-image="">
+        <span class="preview-badge badge-live">Live</span>
+        <div class="preview-3d">
+          <div class="preview-inner">
+            <div class="pi-title">TrendDraw API</div>
+            <div style="color:#60a5fa">POST /ai/picks</div>
+            <div style="color:#546e7a">→ Claude + DynamoDB</div>
+            <div style="color:#34d399">✓ Entertainment Only</div>
+          </div>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-title">TrendDraw</div>
+        <div class="project-desc">AI-assisted lottery trend analysis with real scheduled draw ingestion and honest backtesting.</div>
+        <div class="project-stack">
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">FastAPI</span>
+          <span class="stack-tag">Lambda</span>
+          <span class="stack-tag">DynamoDB</span>
+          <span class="stack-tag stack-tag-more">API Gateway</span>
+          <span class="stack-tag stack-tag-more">EventBridge</span>
+          <span class="stack-tag stack-tag-more">Anthropic Claude</span>
+          <span class="stack-tag stack-tag-more">Terraform</span>
+          <span class="stack-tag stack-tag-more">CloudFront</span>
+        </div>
+        <div class="project-actions">
+          <a class="project-action primary" href="https://www.joesparkman.com/trend-draw/">App</a>
+          <a class="project-action" href="https://www.joesparkman.com/trend-draw/story.html">Story</a>
+          <a class="project-action" href="https://www.joesparkman.com/trend-draw/architecture-diagram.html">Visual Diagram</a>
+          <a class="project-action" href="https://www.joesparkman.com/trend-draw/readme.html">README</a>
         </div>
       </div>
     </div>
