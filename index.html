@@ -342,7 +342,7 @@ nav {
   display: flex; justify-content: center;
 }
 .stats-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  display: flex; flex-wrap: wrap; justify-content: center;
   gap: 14px; max-width: 980px; width: 100%;
 }
 .stat-card {
@@ -350,6 +350,7 @@ nav {
   border: 1px solid var(--border2);
   border-radius: 14px; padding: 12px;
   min-height: 286px;
+  flex: 0 1 150px;
   position: relative; overflow: hidden;
   display: flex;
   align-items: center;
@@ -662,7 +663,8 @@ footer {
   }
   nav { padding: 16px 20px; }
   .nav-links { display: none; }
-  .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .stats-grid { gap: 10px; }
+  .stats-grid .stat-card { flex-basis: calc(50% - 5px); }
   .cert-progress-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .about-layout { grid-template-columns: 1fr; gap: 40px; }
   .hero-card { transform: none; }
@@ -671,7 +673,7 @@ footer {
   .cta-box { padding: 36px 24px; }
 }
 @media (max-width: 480px) {
-  .stats-grid { grid-template-columns: 1fr; }
+  .stats-grid .stat-card { flex-basis: 100%; }
   .cert-progress-row { grid-template-columns: 1fr; }
 }
 
@@ -1236,6 +1238,11 @@ footer {
     <div class="stat-card" style="padding: 14px;">
       <a class="credly-badge-link" href="atlytics-certificate.html">
         <img class="credly-badge-img" src="atlytics-certificate.png" alt="ATLytics Data Analytics - Data for Hope Education Program badge" style="width: 100%; height: auto; max-width: 180px; border-radius: 6px;">
+      </a>
+    </div>
+    <div class="stat-card">
+      <a class="credly-badge-link" href="https://www.credly.com/badges/f8adfa22-15ee-49af-ae94-c62d400b7fb9/public_url" target="_blank" rel="noopener noreferrer">
+        <img class="credly-badge-img" src="https://images.credly.com/size/340x340/images/9246c572-2b5e-4b3a-9fae-e87b3c1bf681/blob" alt="AWS Cloud Quest: Serverless Developer badge">
       </a>
     </div>
   </div>
