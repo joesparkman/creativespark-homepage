@@ -28,6 +28,12 @@ variable "github_deploy_branch" {
   default     = "main"
 }
 
+variable "github_dev_branch" {
+  description = "Branch allowed to assume the dev deploy role."
+  type        = string
+  default     = "dev"
+}
+
 variable "cloudfront_distribution_id" {
   description = "CloudFront distribution ID this site is served through. Owned by the quickbite project's Terraform, referenced here by ID only so the deploy role can invalidate it."
   type        = string

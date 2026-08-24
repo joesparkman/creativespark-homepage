@@ -29,7 +29,7 @@ data "aws_iam_policy_document" "github_actions_trust" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_repo}:ref:refs/heads/${var.github_deploy_branch}"]
+      values   = ["repo:${local.github_owner}*/${local.github_repo_name}*:ref:refs/heads/${var.github_deploy_branch}"]
     }
   }
 }
