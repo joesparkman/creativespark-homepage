@@ -206,7 +206,7 @@
 <body>
     <main class="shell">
         <h1>Architecture Visual</h1>
-        <p class="sub">How a GoTo Connect voicemail becomes a triaged, urgency-flagged email: from S3 upload through Whisper transcription, GPT-4o-mini triage, DynamoDB persistence, and SES delivery, plus a scheduled weekly digest.</p>
+        <p class="sub">How a GoTo Connect voicemail becomes a triaged, urgency-flagged email: from S3 upload through Amazon Transcribe, Claude-driven triage, DynamoDB persistence, and SES delivery, plus a scheduled weekly digest.</p>
 
         <section class="board" aria-label="Call triage pipeline architecture lanes">
             <article class="lane">
@@ -231,26 +231,47 @@
             </article>
 
             <article class="lane">
-                <p class="lane-title">Transcription and Triage</p>
+                <p class="lane-title">Transcription</p>
                 <div class="lane-grid">
                     <div class="node cyan">
                         <div class="node-head">
                             <span class="node-icon" style="background:#ED7100"><svg viewBox="0 0 24 24"><text x="12" y="17.5" font-size="16" font-family="Georgia,'Times New Roman',serif" fill="white" text-anchor="middle">&#955;</text></svg></span>
                             Lambda: start_transcription
                         </div>
-                        <small>S3 ObjectCreated trigger, orchestrates the whole call flow</small>
+                        <small>S3 ObjectCreated trigger, kicks off an Amazon Transcribe job and returns</small>
                     </div>
                     <div class="node cyan">
                         <div class="node-head">
-                            <span class="node-icon" style="background:#A855F7"><svg viewBox="0 0 24 24" fill="white"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg></span>
-                            OpenAI Whisper
+                            <span class="node-icon" style="background:#759C3E"><svg viewBox="0 0 24 24" fill="white"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg></span>
+                            Amazon Transcribe
                         </div>
-                        <small>Speech-to-text transcription of the call recording</small>
+                        <small>Async speech-to-text; call_id and identifiers ride along as job tags</small>
                     </div>
                     <div class="node cyan">
                         <div class="node-head">
+                            <span class="node-icon" style="background:#8C4FFF"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="2"/><path d="M3.5 9h17M8 3v3M16 3v3"/></svg></span>
+                            EventBridge
+                        </div>
+                        <small>Transcribe job state change (COMPLETED/FAILED) triggers process_transcript</small>
+                    </div>
+                </div>
+            </article>
+
+            <article class="lane">
+                <p class="lane-title">Triage and Classification</p>
+                <div class="lane-grid">
+                    <div class="node cyan">
+                        <div class="node-head">
+                            <span class="node-icon" style="background:#ED7100"><svg viewBox="0 0 24 24"><text x="12" y="17.5" font-size="16" font-family="Georgia,'Times New Roman',serif" fill="white" text-anchor="middle">&#955;</text></svg></span>
+                            Lambda: process_transcript
+                        </div>
+                        <small>Fetches the finished transcript, archives it as plain text</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node cyan">
+                        <div class="node-head">
                             <span class="node-icon" style="background:#A855F7"><svg viewBox="0 0 24 24" fill="white"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg></span>
-                            GPT-4o-mini
+                            Claude (Anthropic API)
                         </div>
                         <small>Category, urgency flags, summary, and action items</small>
                     </div>
@@ -307,13 +328,13 @@
                 </div>
             </article>
 
-            <p class="board-note">Filename/metadata parsing never raises: anything it can't confidently extract degrades to "unknown" rather than stalling the pipeline. Secrets (OpenAI API key) are injected via a sensitive Terraform variable at deploy time, never hardcoded.</p>
+            <p class="board-note">Filename/metadata parsing never raises: anything it can't confidently extract degrades to "unknown" rather than stalling the pipeline. Secrets (Anthropic API key) live in SSM Parameter Store as a SecureString, read once per Lambda cold start, never hardcoded.</p>
         </section>
 
         <section class="legend">
             <article class="legend-item"><strong>Ingestion layer:</strong> GoTo Connect drops call recordings into an existing S3 bucket under recordings/. The pipeline adds a notification; it doesn't take ownership of the bucket.</article>
-            <article class="legend-item"><strong>Transcription layer:</strong> Lambda calls the OpenAI Whisper API to turn the recording into text, then hands it to GPT-4o-mini for classification.</article>
-            <article class="legend-item"><strong>Triage layer:</strong> GPT-4o-mini returns category, urgency flags (e.g. maintenance_emergency), a plain-language summary, and action items.</article>
+            <article class="legend-item"><strong>Transcription layer:</strong> One Lambda starts an Amazon Transcribe job and returns immediately; a second Lambda picks up the finished transcript off a Transcribe completion event on EventBridge, decoupling a variable-length async job from a single long-running function.</article>
+            <article class="legend-item"><strong>Triage layer:</strong> Claude returns category, urgency flags (e.g. maintenance_emergency), a plain-language summary, and action items.</article>
             <article class="legend-item"><strong>Persistence layer:</strong> DynamoDB's CallLog table is the single source of truth for both per-call lookups and the weekly digest query.</article>
             <article class="legend-item"><strong>Notification layer:</strong> Amazon SES sends both the immediate per-call triage email and the Monday-morning weekly digest.</article>
             <article class="legend-item"><strong>Scheduling layer:</strong> An EventBridge cron rule triggers weekly_summary independently of call volume, so the digest always goes out.</article>

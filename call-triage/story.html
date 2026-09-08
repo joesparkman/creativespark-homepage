@@ -151,11 +151,12 @@
     <section class="card">
       <h2>Approach</h2>
       <p>
-        Every recording GoTo Connect drops into S3 triggers a Lambda that transcribes
-        the call with OpenAI's Whisper API, then hands the transcript to GPT-4o-mini
-        for classification: category, urgency flags, a plain-language summary, and
-        concrete action items. The result is logged to DynamoDB as the single source
-        of truth for that call, and a triage email goes out over Amazon SES immediately.
+        Every recording GoTo Connect drops into S3 triggers a Lambda that starts an
+        Amazon Transcribe job, then a second Lambda picks up the finished transcript
+        and hands it to Claude for classification: category, urgency flags, a
+        plain-language summary, and concrete action items. The result is logged to
+        DynamoDB as the single source of truth for that call, and a triage email
+        goes out over Amazon SES immediately.
       </p>
       <ul>
         <li><strong>Urgency-first triage</strong>: active flooding or no-heat calls are flagged distinctly from routine leasing questions, right in the subject line of the email.</li>

@@ -362,12 +362,12 @@ const SERVICES = {
     name: 'Amazon SES', color: '#BC1356',
     svg: '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.2" y="6" width="17.6" height="12" rx="1.4"/><path d="M4 7l8 6 8-6"/></svg>'
   },
-  whisper: {
-    name: 'OpenAI Whisper', color: '#A855F7',
+  transcribe: {
+    name: 'Amazon Transcribe', color: '#759C3E',
     svg: '<svg viewBox="0 0 24 24" fill="white"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>'
   },
-  gpt: {
-    name: 'GPT-4o-mini', color: '#A855F7',
+  claude: {
+    name: 'Claude (Anthropic)', color: '#A855F7',
     svg: '<svg viewBox="0 0 24 24" fill="white"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>'
   }
 };
@@ -509,16 +509,18 @@ async function selectScenario(key, btn) {
   setStepDone(0);
 
   setStepActive(1);
-  addLine(resTag('lambda') + `process_call invoked (S3 ObjectCreated trigger)`);
+  addLine(resTag('lambda') + `start_transcription invoked (S3 ObjectCreated trigger)`);
   await wait(d * 0.10);
-  addLine(resTag('whisper') + `POST /v1/audio/transcriptions`);
+  addLine(resTag('transcribe') + `StartTranscriptionJob`);
   await wait(d * 0.20);
   addLine(`"${data.transcript}"`, 'quote');
   await wait(d * 0.10);
   setStepDone(1);
 
   setStepActive(2);
-  addLine(resTag('gpt') + `POST /v1/chat/completions: triage prompt`);
+  addLine(resTag('lambda') + `process_transcript invoked (Transcribe job COMPLETED)`);
+  await wait(d * 0.08);
+  addLine(resTag('claude') + `messages.create: triage prompt`);
   await wait(d * 0.25);
   showResult(data);
   setStepDone(2);
