@@ -733,28 +733,6 @@ footer {
           onclick="toggleDemoVideo(this)"
           onplay="this.closest('.demo-video-wrap').classList.add('is-active')"
           onpause="this.closest('.demo-video-wrap').classList.remove('is-active')">
-          <source src="./algo_visualizer_app.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <div class="demo-play-hint"><span class="mono-icon">play_circle</span></div>
-      </div>
-      <div class="demo-info">
-        <div class="demo-title">Algorithm & Logistics Visualizer</div>
-        <a href="https://algo.joesparkman.com"
-           style="color: var(--blue-light); text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px; margin-top: 6px;">
-          Launch Live Demo
-          <span class="mono-icon" style="font-size: 1rem;">arrow_forward</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="demo-card">
-      <div class="demo-video-wrap">
-        <video muted playsinline loop preload="metadata"
-          onloadedmetadata="this.currentTime = Math.min(2, (this.duration||4)/2);"
-          onclick="toggleDemoVideo(this)"
-          onplay="this.closest('.demo-video-wrap').classList.add('is-active')"
-          onpause="this.closest('.demo-video-wrap').classList.remove('is-active')">
           <source src="./quickbite_app.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
@@ -762,57 +740,6 @@ footer {
       </div>
       <div class="demo-info">
         <div class="demo-title">QuickBite App</div>
-      </div>
-    </div>
-
-    <div class="demo-card">
-      <div class="demo-video-wrap">
-        <video muted playsinline loop preload="metadata"
-          onloadedmetadata="this.currentTime = Math.min(2, (this.duration||4)/2);"
-          onclick="toggleDemoVideo(this)"
-          onplay="this.closest('.demo-video-wrap').classList.add('is-active')"
-          onpause="this.closest('.demo-video-wrap').classList.remove('is-active')">
-          <source src="./biometric_app.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <div class="demo-play-hint"><span class="mono-icon">play_circle</span></div>
-      </div>
-      <div class="demo-info">
-        <div class="demo-title">Biometric Scan App</div>
-      </div>
-    </div>
-
-    <div class="demo-card">
-      <div class="demo-video-wrap">
-        <video muted playsinline loop preload="metadata"
-          onloadedmetadata="this.currentTime = Math.min(2, (this.duration||4)/2);"
-          onclick="toggleDemoVideo(this)"
-          onplay="this.closest('.demo-video-wrap').classList.add('is-active')"
-          onpause="this.closest('.demo-video-wrap').classList.remove('is-active')">
-          <source src="./pet_recipe_app.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <div class="demo-play-hint"><span class="mono-icon">play_circle</span></div>
-      </div>
-      <div class="demo-info">
-        <div class="demo-title">Pet Recipe App</div>
-      </div>
-    </div>
-
-    <div class="demo-card">
-      <div class="demo-video-wrap">
-        <video muted playsinline loop preload="metadata"
-          onloadedmetadata="this.currentTime = Math.min(2, (this.duration||4)/2);"
-          onclick="toggleDemoVideo(this)"
-          onplay="this.closest('.demo-video-wrap').classList.add('is-active')"
-          onpause="this.closest('.demo-video-wrap').classList.remove('is-active')">
-          <source src="./fifa_app.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <div class="demo-play-hint"><span class="mono-icon">play_circle</span></div>
-      </div>
-      <div class="demo-info">
-        <div class="demo-title">FIFA Neon App</div>
       </div>
     </div>
 
@@ -867,6 +794,13 @@ footer {
       </div>
     </div>
   </div>
+
+  <div style="margin-top: 40px;">
+    <a href="./more-projects.html" class="btn-ghost" style="display: inline-flex; align-items: center; gap: 8px;">
+      View More Projects
+      <span class="mono-icon" style="font-size: 1rem;">arrow_forward</span>
+    </a>
+  </div>
 </section>
 
 <hr class="section-divider">
@@ -877,112 +811,6 @@ footer {
   <p class="section-sub">A closer look at the stack, infrastructure, and design decisions behind each app demoed above.</p>
 
   <div class="projects-grid">
-    <div class="project-card">
-      <div class="project-preview" data-preview-image="">
-        <span class="preview-badge badge-build">Interactive</span>
-        <div class="preview-3d">
-          <div class="preview-inner">
-            <div class="pi-title">Algo Visualizer</div>
-            <div style="color:#60a5fa">prev → curr → next</div>
-            <div style="color:#546e7a">4 visualizers, 0 backend</div>
-            <div style="color:#34d399">✓ O(log N) proven</div>
-          </div>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-title">Algorithm & Logistics Visualizer</div>
-        <div class="project-desc">Interactive teaching tool for pointers, async state, and Big-O &mdash; step through the exact code and animation together.</div>
-        <div class="project-stack">
-          <span class="stack-tag">React</span>
-          <span class="stack-tag">Tailwind CSS</span>
-          <span class="stack-tag">Framer Motion</span>
-          <span class="stack-tag stack-tag-more">Vite</span>
-          <span class="stack-tag stack-tag-more">Terraform</span>
-          <span class="stack-tag stack-tag-more">S3</span>
-          <span class="stack-tag stack-tag-more">CloudFront</span>
-        </div>
-        <div class="project-actions">
-          <a class="project-action primary" href="https://algo.joesparkman.com/">App</a>
-          <a class="project-action" href="https://algo.joesparkman.com/story.html">Story</a>
-          <a class="project-action" href="https://algo.joesparkman.com/architecture-diagram.html">Visual Diagram</a>
-          <a class="project-action" href="https://algo.joesparkman.com/readme.html">README</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-preview" data-preview-image="">
-        <span class="preview-badge badge-live">Live</span>
-        <div class="preview-3d">
-          <div class="preview-inner">
-            <div class="pi-title">Biometric Verify API</div>
-            <div style="color:#60a5fa">POST /verify</div>
-            <div style="color:#546e7a">→ Rekognition</div>
-            <div style="color:#34d399">✓ 200 VERIFIED</div>
-          </div>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-title">Biometric Scan App</div>
-        <div class="project-desc">AWS Rekognition face verification.</div>
-        <div class="project-stack">
-          <span class="stack-tag">Python</span>
-          <span class="stack-tag">Lambda</span>
-          <span class="stack-tag">Rekognition</span>
-          <span class="stack-tag">DynamoDB</span>
-          <span class="stack-tag stack-tag-more">HTML</span>
-          <span class="stack-tag stack-tag-more">CSS</span>
-          <span class="stack-tag stack-tag-more">AWS SAM</span>
-          <span class="stack-tag stack-tag-more">API Gateway</span>
-          <span class="stack-tag stack-tag-more">S3</span>
-          <span class="stack-tag stack-tag-more">Secrets Manager</span>
-        </div>
-        <div class="project-actions">
-          <a class="project-action primary" href="https://app.joesparkman.com/biometric/">App</a>
-          <a class="project-action" href="https://app.joesparkman.com/biometric/story.html">Story</a>
-          <a class="project-action" href="https://app.joesparkman.com/biometric/architecture-diagram.html">Visual Diagram</a>
-          <a class="project-action" href="https://www.joesparkman.com/readme/biometric.html">README</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-preview" data-preview-image="">
-        <span class="preview-badge badge-build">Live</span>
-        <div class="preview-3d">
-          <div class="preview-inner">
-            <div class="pi-title">FIFA Neon App</div>
-            <div style="color:#a855f7">Neon Modes</div>
-            <div style="color:#546e7a">Interactive Experience</div>
-            <div style="color:#22d3ee">⚡ Launch Ready</div>
-          </div>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-title">FIFA Neon App</div>
-        <div class="project-desc">Real-time sports data dashboard.</div>
-        <div class="project-stack">
-          <span class="stack-tag">JavaScript</span>
-          <span class="stack-tag">Node.js</span>
-          <span class="stack-tag">Lambda</span>
-          <span class="stack-tag">DynamoDB</span>
-          <span class="stack-tag stack-tag-more">HTML</span>
-          <span class="stack-tag stack-tag-more">CSS</span>
-          <span class="stack-tag stack-tag-more">AWS SAM</span>
-          <span class="stack-tag stack-tag-more">Terraform</span>
-          <span class="stack-tag stack-tag-more">GitHub Actions</span>
-          <span class="stack-tag stack-tag-more">API Gateway</span>
-          <span class="stack-tag stack-tag-more">S3</span>
-        </div>
-        <div class="project-actions">
-          <a class="project-action primary" href="https://app.joesparkman.com/fifa/">App</a>
-          <a class="project-action" href="https://app.joesparkman.com/fifa/?view=story">Story</a>
-          <a class="project-action" href="https://app.joesparkman.com/fifa/architecture-diagram.html">Visual Diagram</a>
-          <a class="project-action" href="https://www.joesparkman.com/readme/fifa.html">README</a>
-        </div>
-      </div>
-    </div>
-
     <div class="project-card">
       <div class="project-preview">
         <span class="preview-badge badge-live">Live</span>
@@ -1016,43 +844,6 @@ footer {
           <a class="project-action" href="https://app.joesparkman.com/quickbite/story.html">Story</a>
           <a class="project-action" href="https://app.joesparkman.com/quickbite/architecture-diagram.html">Visual Diagram</a>
           <a class="project-action" href="https://www.joesparkman.com/readme/quickbite.html">README</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-preview" data-preview-image="">
-        <span class="preview-badge badge-live">Live</span>
-        <div class="preview-3d">
-          <div class="preview-inner">
-            <div class="pi-title">Pet Recipe Assistant</div>
-            <div style="color:#60a5fa">POST /recipes</div>
-            <div style="color:#546e7a">Gemini + AWS API</div>
-            <div style="color:#34d399">✓ Auth Enabled</div>
-          </div>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-title">Pet Recipe App</div>
-        <div class="project-desc">Gemini AI-powered recipe generation.</div>
-        <div class="project-stack">
-          <span class="stack-tag">Python</span>
-          <span class="stack-tag">Gemini API</span>
-          <span class="stack-tag">Lambda</span>
-          <span class="stack-tag">DynamoDB</span>
-          <span class="stack-tag stack-tag-more">HTML</span>
-          <span class="stack-tag stack-tag-more">CSS</span>
-          <span class="stack-tag stack-tag-more">JavaScript</span>
-          <span class="stack-tag stack-tag-more">Cognito</span>
-          <span class="stack-tag stack-tag-more">API Gateway</span>
-          <span class="stack-tag stack-tag-more">S3</span>
-          <span class="stack-tag stack-tag-more">CloudFront</span>
-        </div>
-        <div class="project-actions">
-          <a class="project-action primary" href="https://app.joesparkman.com/pet-recipe-app/">App</a>
-          <a class="project-action" href="https://app.joesparkman.com/pet-recipe-app/story.html">Story</a>
-          <a class="project-action" href="https://app.joesparkman.com/pet-recipe-app/architecture-diagram.html">Visual Diagram</a>
-          <a class="project-action" href="https://www.joesparkman.com/readme/pet-recipe.html">README</a>
         </div>
       </div>
     </div>
@@ -1134,40 +925,6 @@ footer {
         <span class="preview-badge badge-live">Live</span>
         <div class="preview-3d">
           <div class="preview-inner">
-            <div class="pi-title">Static Site CI/CD</div>
-            <div style="color:#60a5fa">git push → main</div>
-            <div style="color:#546e7a">OIDC + S3 + CloudFront</div>
-            <div style="color:#34d399">✓ Deployed via GitHub Actions</div>
-          </div>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-title">Portfolio Website</div>
-        <div class="project-desc">Infrastructure-as-code CI/CD deployment.</div>
-        <div class="project-stack">
-          <span class="stack-tag">S3</span>
-          <span class="stack-tag">CloudFront</span>
-          <span class="stack-tag">GitHub Actions</span>
-          <span class="stack-tag">IAM OIDC</span>
-          <span class="stack-tag stack-tag-more">HTML</span>
-          <span class="stack-tag stack-tag-more">CSS</span>
-          <span class="stack-tag stack-tag-more">JavaScript</span>
-          <span class="stack-tag stack-tag-more">ACM</span>
-        </div>
-        <div class="project-actions">
-          <a class="project-action primary" href="https://www.joesparkman.com/">App</a>
-          <a class="project-action" href="https://www.joesparkman.com/portfolio-story.html">Story</a>
-          <a class="project-action" href="https://www.joesparkman.com/portfolio-architecture.html">Visual Diagram</a>
-          <a class="project-action" href="https://www.joesparkman.com/readme/portfolio.html">README</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-preview" data-preview-image="">
-        <span class="preview-badge badge-live">Live</span>
-        <div class="preview-3d">
-          <div class="preview-inner">
             <div class="pi-title">TrendDraw API</div>
             <div style="color:#60a5fa">POST /ai/picks</div>
             <div style="color:#546e7a">→ Claude + DynamoDB</div>
@@ -1197,6 +954,18 @@ footer {
         </div>
       </div>
     </div>
+
+    <a class="project-card" href="./more-projects.html" style="text-decoration: none; align-items: center; justify-content: center; text-align: center; min-height: 280px;">
+      <div style="padding: 32px 22px; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <span class="mono-icon" style="font-size: 34px; color: var(--blue-light);">apps</span>
+        <div class="project-title" style="margin-bottom: 0;">View More Projects</div>
+        <div class="project-desc">5 more apps &mdash; Algorithm Visualizer, Biometric Scan, FIFA Neon, Pet Recipe, and the Portfolio Website itself.</div>
+        <span class="project-action primary" style="margin-top: 8px;">
+          See All
+          <span class="mono-icon" style="font-size: 1rem; margin-left: 6px;">arrow_forward</span>
+        </span>
+      </div>
+    </a>
   </div>
 </section>
 
