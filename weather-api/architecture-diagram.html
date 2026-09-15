@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather API Gateway - Architecture Visual</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,500,0,0" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.2);
+            --border-soft: rgba(99, 179, 255, 0.09);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+            --purple: #a855f7;
+            --amber: #f59e0b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 18% 2%, rgba(96, 165, 250, 0.14), transparent 35%),
+                radial-gradient(circle at 92% 16%, rgba(168, 85, 247, 0.12), transparent 30%),
+                var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 16px 40px;
+        }
+
+        .mono-icon {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 26px;
+            line-height: 1;
+            display: block;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .shell {
+            max-width: 1140px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+        }
+
+        .sub {
+            margin: 10px 0 24px;
+            color: var(--muted);
+            line-height: 1.65;
+            max-width: 760px;
+        }
+
+        .board {
+            border: 1px solid var(--border-soft);
+            border-radius: 18px;
+            background: linear-gradient(145deg, rgba(12, 17, 32, 0.95), rgba(17, 24, 39, 0.94));
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+            padding: 18px;
+            overflow: hidden;
+        }
+
+        .lane {
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .lane + .lane {
+            margin-top: 12px;
+        }
+
+        .lane-title {
+            margin: 0 0 10px;
+            font-size: 0.74rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .lane-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .lane-grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+        .node {
+            border: 1px solid var(--border);
+            background: linear-gradient(135deg, var(--surface), var(--surface-2));
+            border-radius: 12px;
+            padding: 14px 12px;
+            text-align: center;
+            font-weight: 600;
+            min-height: 104px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .node .mono-icon {
+            margin: 0 auto 2px;
+            color: inherit;
+        }
+
+        .node small {
+            color: var(--muted);
+            font-weight: 500;
+            font-size: 0.74rem;
+        }
+
+        .node.blue { border-color: rgba(96, 165, 250, 0.38); color: var(--blue); }
+        .node.cyan { border-color: rgba(34, 211, 238, 0.38); color: var(--cyan); }
+        .node.green { border-color: rgba(52, 211, 153, 0.38); color: var(--green); }
+        .node.purple { border-color: rgba(168, 85, 247, 0.35); color: var(--purple); }
+        .node.amber { border-color: rgba(245, 158, 11, 0.4); color: var(--amber); }
+
+        .node span:not(.mono-icon) { color: var(--text); }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+            font-weight: 700;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .board-note {
+            margin: 12px 4px 2px;
+            color: var(--muted);
+            font-size: 0.86rem;
+            line-height: 1.55;
+        }
+
+        .legend {
+            margin-top: 20px;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .legend-item {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.55;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .legend-item .mono-icon {
+            flex: 0 0 auto;
+            margin-top: 2px;
+            color: var(--blue);
+        }
+
+        .legend-item strong {
+            color: var(--text);
+        }
+
+        .actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .actions a {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.82rem;
+            background: rgba(96, 165, 250, 0.15);
+        }
+
+        @media (max-width: 860px) {
+            .lane-grid, .lane-grid.cols-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .flow {
+                transform: rotate(90deg);
+                min-height: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <h1>Architecture Visual</h1>
+        <p class="sub">One Lambda function, two API Gateway front doors: an open HTTP API for the frontend, and a key-protected REST API behind a custom domain, both proxying into the same weather lookup.</p>
+
+        <section class="board" aria-label="Weather API Gateway cloud architecture lanes">
+            <article class="lane">
+                <p class="lane-title">HTTP API Path (Open, CORS-Enabled)</p>
+                <div class="lane-grid cols-4">
+                    <div class="node blue">
+                        <span class="mono-icon">language</span>
+                        <span>Frontend / Browser</span>
+                        <small>fetch() with lat/lon</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node cyan">
+                        <span class="mono-icon">hub</span>
+                        <span>HTTP API</span>
+                        <small>weather-demo-api, no auth</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node purple">
+                        <span class="mono-icon">bolt</span>
+                        <span>Lambda Proxy</span>
+                        <small>get-weather-demo, Python</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node green">
+                        <span class="mono-icon">cloud</span>
+                        <span>Open-Meteo API</span>
+                        <small>Current weather conditions</small>
+                    </div>
+                </div>
+            </article>
+
+            <article class="lane">
+                <p class="lane-title">REST API Path (API Key + Custom Domain)</p>
+                <div class="lane-grid cols-4">
+                    <div class="node amber">
+                        <span class="mono-icon">vpn_key</span>
+                        <span>Client + x-api-key</span>
+                        <small>curl or authenticated caller</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node green">
+                        <span class="mono-icon">dns</span>
+                        <span>weather-api.joesparkman.com</span>
+                        <small>Regional custom domain, ACM cert</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node cyan">
+                        <span class="mono-icon">shield</span>
+                        <span>REST API + Usage Plan</span>
+                        <small>Throttle 10 rps, 1000/day quota</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node purple">
+                        <span class="mono-icon">bolt</span>
+                        <span>Same Lambda Function</span>
+                        <small>Shared backend with HTTP API</small>
+                    </div>
+                </div>
+            </article>
+
+            <article class="lane">
+                <p class="lane-title">DNS and Certificate (Manual, GoDaddy)</p>
+                <div class="lane-grid cols-4">
+                    <div class="node amber">
+                        <span class="mono-icon">verified_user</span>
+                        <span>ACM Certificate</span>
+                        <small>DNS-validated, us-east-2</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node green">
+                        <span class="mono-icon">dns</span>
+                        <span>GoDaddy CNAME Records</span>
+                        <small>Validation + domain mapping</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node cyan">
+                        <span class="mono-icon">hub</span>
+                        <span>API Gateway Custom Domain</span>
+                        <small>Regional endpoint</small>
+                    </div>
+                    <div class="flow">&rarr;</div>
+                    <div class="node blue">
+                        <span class="mono-icon">link</span>
+                        <span>Mapped to REST API Stage</span>
+                        <small>weather-demo-rest-api / dev</small>
+                    </div>
+                </div>
+            </article>
+
+            <p class="board-note">Both gateways proxy into the exact same Lambda function, so every behavioral difference visitors see (auth, throttling, custom domain) comes from the API Gateway configuration, not the backend code.</p>
+        </section>
+
+        <section class="legend">
+            <article class="legend-item"><span class="mono-icon">hub</span><span><strong>HTTP API:</strong> Lightweight, low-cost gateway type, CORS-enabled, open by default, what the frontend calls.</span></article>
+            <article class="legend-item"><span class="mono-icon">shield</span><span><strong>REST API:</strong> Full-featured gateway type, requires an <code>x-api-key</code> header and enforces a usage plan (throttling and daily quota).</span></article>
+            <article class="legend-item"><span class="mono-icon">bolt</span><span><strong>Lambda:</strong> A single Python function calls Open-Meteo with the incoming <code>lat</code>/<code>lon</code> and returns current conditions as JSON, shared by both gateways.</span></article>
+            <article class="legend-item"><span class="mono-icon">verified_user</span><span><strong>ACM:</strong> A regional certificate for <code>weather-api.joesparkman.com</code>, validated via a CNAME record added by hand in GoDaddy.</span></article>
+            <article class="legend-item"><span class="mono-icon">dns</span><span><strong>DNS:</strong> <code>joesparkman.com</code> is managed outside Route 53, so the certificate validation and domain-mapping CNAMEs are added manually rather than via CloudFormation.</span></article>
+            <article class="legend-item"><span class="mono-icon">savings</span><span><strong>Cost:</strong> Runs entirely within AWS free-tier limits; the API key lives in SSM Parameter Store (SecureString) instead of Secrets Manager to keep cost at zero.</span></article>
+        </section>
+
+        <div class="actions">
+            <a href="./index.html">Open App</a>
+            <a href="./story.html">Build Story</a>
+            <a href="https://github.com/joesparkman/weather-api">View Source</a>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather API Gateway - README</title>
+    <meta name="description" content="README for the Weather API Gateway learning project: a Lambda function fronted by both an HTTP API and a REST API, with API keys, usage plans, and a custom domain.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0c1120;
+            --surface-2: #111827;
+            --border: rgba(99, 179, 255, 0.14);
+            --text: #e2e8f0;
+            --muted: #8ea2bb;
+            --blue-light: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent 40%), var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            padding: 28px 18px 40px;
+        }
+        .shell { max-width: 860px; margin: 0 auto; }
+        .eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--blue-light); margin: 0 0 10px; font-weight: 700; }
+        h1 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: -0.02em; }
+        .lead { margin: 14px 0 28px; color: var(--muted); line-height: 1.7; max-width: 700px; }
+        .lead a { color: var(--blue-light); }
+        .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+        .actions a { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.82rem; background: rgba(59, 130, 246, 0.14); }
+        .actions a.secondary { background: transparent; color: var(--muted); }
+        .stack-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 32px; }
+        .stack-tag { font-size: 0.72rem; font-weight: 600; color: var(--cyan); background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.22); border-radius: 999px; padding: 5px 11px; }
+        .readme-body h2 { font-family: "Space Grotesk", sans-serif; font-size: 1.15rem; color: var(--text); margin: 40px 0 12px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .readme-body h2:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+        .readme-body ol, .readme-body ul { color: var(--muted); line-height: 1.8; padding-left: 22px; margin: 0 0 16px; }
+        .readme-body p { color: var(--muted); line-height: 1.7; margin: 0 0 12px; }
+        .readme-body table { width: 100%; border-collapse: collapse; margin: 0 0 16px; font-size: 0.88rem; }
+        .readme-body th, .readme-body td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; }
+        .readme-body th { color: var(--text); font-weight: 600; }
+        .readme-body code { font-family: "JetBrains Mono", monospace; font-size: 0.85em; background: rgba(99, 179, 255, 0.1); border: 1px solid rgba(99, 179, 255, 0.16); border-radius: 4px; padding: 1px 6px; color: var(--cyan); }
+        .readme-body pre { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; margin: 0 0 16px; }
+        .readme-body pre code { background: none; border: none; padding: 0; color: #cbd5e1; font-size: 0.82rem; line-height: 1.6; }
+        .footer-note { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <p class="eyebrow">README</p>
+        <h1>Weather API Gateway</h1>
+        <p class="lead">
+            A hands-on project built to learn Amazon API Gateway from the ground up, built while preparing for
+            the AWS Certified Developer - Associate exam. A single Lambda function is fronted by two different
+            API Gateway configurations to compare their capabilities, culminating in a custom domain with HTTPS,
+            API key authentication, and usage throttling.
+        </p>
+
+        <div class="stack-row">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">AWS Lambda</span>
+            <span class="stack-tag">API Gateway (HTTP + REST)</span>
+            <span class="stack-tag">CloudFormation</span>
+            <span class="stack-tag">ACM</span>
+            <span class="stack-tag">SSM Parameter Store</span>
+            <span class="stack-tag">HTML / JavaScript</span>
+        </div>
+
+        <div class="readme-body">
+            <h2>Components</h2>
+            <table>
+                <tr><th>Component</th><th>Purpose</th></tr>
+                <tr><td><code>get-weather-demo</code> (Lambda)</td><td>Reads <code>lat</code>/<code>lon</code> from the request, calls Open-Meteo, returns current conditions as JSON. Returns a 502 on upstream failure instead of crashing.</td></tr>
+                <tr><td><code>weather-demo-api</code> (HTTP API)</td><td>Lightweight, low-cost API type. Open and CORS-enabled, what the frontend calls.</td></tr>
+                <tr><td><code>weather-demo-rest-api</code> (REST API)</td><td>Full-featured API type. Requires an API key and sits behind a usage plan (throttling/quota), features not available on HTTP APIs.</td></tr>
+                <tr><td><code>weather-api.joesparkman.com</code></td><td>Regional custom domain backed by an ACM certificate, DNS-validated and mapped through GoDaddy (this domain isn't delegated to Route 53).</td></tr>
+                <tr><td><code>frontend/index.html</code></td><td>Type a city, see the current weather; geocodes the name via Open-Meteo's free geocoding API, then calls the HTTP API.</td></tr>
+            </table>
+
+            <h2>Deploying the Infrastructure</h2>
+            <p>The core resources (Lambda, both APIs, API key, usage plan) are defined in <code>infrastructure/template.yaml</code> and deployed with the AWS CLI:</p>
+            <pre><code>aws cloudformation deploy \
+  --template-file infrastructure/template.yaml \
+  --stack-name weather-api-demo \
+  --capabilities CAPABILITY_IAM</code></pre>
+            <p>The custom domain is intentionally left out of the template. Since <code>joesparkman.com</code>'s DNS is managed in GoDaddy rather than Route 53, the certificate validation record and the final domain-mapping CNAME are added by hand.</p>
+
+            <h2>Custom Domain Setup (Manual, One-Time)</h2>
+            <ol>
+                <li>Requested a public certificate for <code>weather-api.joesparkman.com</code> in ACM (<code>us-east-2</code>, matching the REST API's region).</li>
+                <li>Added the ACM-provided CNAME validation record in GoDaddy's DNS manager.</li>
+                <li>Created a regional custom domain name in API Gateway and attached the certificate.</li>
+                <li>Mapped the custom domain to the <code>weather-demo-rest-api</code> / <code>dev</code> stage.</li>
+                <li>Added a second CNAME record in GoDaddy pointing <code>weather-api</code> at the API Gateway-generated regional domain target.</li>
+            </ol>
+
+            <h2>Testing Summary</h2>
+            <table>
+                <tr><th>Test</th><th>Result</th></tr>
+                <tr><td><code>GET /weather</code> (HTTP API, no params)</td><td>Atlanta weather, 200</td></tr>
+                <tr><td><code>GET /weather?lat&amp;lon</code> (HTTP API)</td><td>Weather for given coordinates</td></tr>
+                <tr><td>Cross-origin fetch from unrelated domain</td><td>Succeeds due to CORS</td></tr>
+                <tr><td><code>GET /weather</code> (REST API, no key)</td><td>403 Forbidden</td></tr>
+                <tr><td><code>GET /weather</code> (REST API, valid key)</td><td>200 with weather data</td></tr>
+                <tr><td><code>GET /weather</code> via custom domain, valid key</td><td>200 with weather data</td></tr>
+            </table>
+
+            <h2>Cost Notes</h2>
+            <p>Everything here runs comfortably within AWS free-tier limits: Lambda's free tier (1M requests/month), negligible API Gateway per-request pricing, and free ACM certificates. A regional custom domain provisions no standing infrastructure (no load balancer or CloudFront distribution, unlike an edge-optimized domain). The API key is stored in SSM Parameter Store (SecureString) rather than Secrets Manager to keep ongoing cost at zero.</p>
+
+            <h2>Skills Demonstrated</h2>
+            <p>Lambda function development (Python), API Gateway HTTP and REST APIs, Lambda proxy integration, route/resource/method configuration, CORS, API keys and usage plans, AWS Certificate Manager (DNS-validated certificates), custom domain mapping (regional endpoints), third-party DNS configuration alongside AWS-native services, infrastructure as code (CloudFormation), and a small vanilla-JS frontend consuming the deployed API.</p>
+        </div>
+
+        <div class="actions">
+            <a href="https://www.joesparkman.com/weather-api/">Open App</a>
+            <a href="https://www.joesparkman.com/weather-api/story.html">Story</a>
+            <a href="https://www.joesparkman.com/weather-api/architecture-diagram.html">Visual Diagram</a>
+            <a class="secondary" href="https://www.joesparkman.com/more-projects.html">Back to Projects</a>
+        </div>
+
+        <p class="footer-note">Source repository: joesparkman/weather-api</p>
+    </main>
+</body>
+</html>
