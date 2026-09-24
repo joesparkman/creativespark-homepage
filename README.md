@@ -1,6 +1,6 @@
 # creativespark-homepage
 
-Source for [www.joesparkman.com](https://www.joesparkman.com) — a static
+Source for [www.joesparkman.com](https://www.joesparkman.com) A static
 portfolio site showcasing cloud applications and automation projects, plus
 the interactive demo pages for several of them (served from
 `app.joesparkman.com`).
